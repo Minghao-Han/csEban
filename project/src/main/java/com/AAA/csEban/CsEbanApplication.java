@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 
-@MapperScan(basePackages = "com.AAA.csEban.mapper")
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+@MapperScan(basePackages = "com.AAA.csEban.pojo")
+@SpringBootApplication
 public class CsEbanApplication {
 
 	public static void main(String[] args) {
