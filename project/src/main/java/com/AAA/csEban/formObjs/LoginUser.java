@@ -1,4 +1,4 @@
-package com.AAA.csEban.formObj;
+package com.AAA.csEban.formObjs;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
