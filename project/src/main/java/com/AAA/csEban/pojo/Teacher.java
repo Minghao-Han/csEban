@@ -12,8 +12,8 @@ import java.util.List;
 @NoArgsConstructor
 public class Teacher {
     private int teacherId;
-    private String name;
-    private Dept dept;
+    private String teacherName;
+    private int deptId;
 
     private List<Notice> noticeList = new LinkedList<>();
 }

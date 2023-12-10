@@ -1,6 +1,10 @@
-package com.AAA.csEban.pojo;
+package com.AAA.csEban.mapper;
 
 
+import com.AAA.csEban.pojo.Dept;
+import com.AAA.csEban.pojo.Notice;
+import com.AAA.csEban.pojo.Student;
+import com.AAA.csEban.pojo.Teacher;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -15,11 +19,13 @@ public interface PojoMapper {
 
      Student queryStudentById(int id);
 
-     Teacher queryTeacherById(int id);
+     Teacher queryTeacherNameById(int id);
 
      Dept queryDeptById(int id);
 
      Notice queryNoticeById(int id);
+
+    Teacher selectTeacherById(int i);
 
 
 //

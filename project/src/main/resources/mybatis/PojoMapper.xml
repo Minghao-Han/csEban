@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--namespace=绑定一个对应的Dao/Mapper接口-->
-<mapper namespace="com.AAA.csEban.pojo.PojoMapper">
+<mapper namespace="com.AAA.csEban.mapper.PojoMapper">
 
     <select id="queryStudentById" resultMap="StudentResultMap">
         select *
@@ -17,8 +17,8 @@
             left outer join teacher T on D.dept_instrutor = T.teacher_id
         where D.dept_id = #{id}
     </select>
-    <select id="queryTeacherById" resultMap="TeacherResultMap">
-        select *
+    <select id="queryTeacherNameById" resultMap="TeacherResultMap">
+        select teacher_name
         from teacher T
             left outer join dept D on T.dept_id = D.dept_id
         where T.teacher_id = #{id}
@@ -36,6 +36,9 @@
             left outer join teacher T on N.teacher_id = T.teacher_id
         where N.teacher_id = #{id}
     </select>
+    <select id="selectTeacherById" resultMap="TeacherResultMap">
+        select * from teacher where teacher_id=#{id}
+    </select>
 
     <resultMap id="StudentResultMap" type="com.AAA.csEban.pojo.Student">
         <id property="studentId" column="student_id"/>
@@ -48,13 +51,14 @@
     <resultMap id="DeptResultMap" type="com.AAA.csEban.pojo.Dept">
         <id property="deptId" column="dept_id"/>
         <result property="name" column="dept_name"/>
-        <association property="instrutor" column="dept_instrutor" select="queryTeacherById"/>
+        <association property="instructor" column="dept_instrutor" select="queryTeacherNameById"/>
     </resultMap>
 
     <resultMap id="TeacherResultMap" type="com.AAA.csEban.pojo.Teacher">
         <id property="teacherId" column="teacher_id"/>
-        <result property="name" column="teacher_name"/>
-        <association property="dept" column="dept_id" select="queryDeptById"/>
+        <result property="teacherName" column="teacher_name"/>
+        <result property="deptId" column="dept_id"/>
+        <!--<association property="deptId" column="dept_id" select="queryDeptById"/>-->
         <collection property="noticeList" ofType="com.AAA.csEban.pojo.Notice" select="queryNoticeListForTeacher" column="teacher_id"/>
     </resultMap>
 
