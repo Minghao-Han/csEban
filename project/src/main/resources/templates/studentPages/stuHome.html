@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:object="${loginUser}">
+    <p th:text="*{username}">username</p>
+    <p th:text="*{password}">password</p>
+</div>
+</body>
+</html>
