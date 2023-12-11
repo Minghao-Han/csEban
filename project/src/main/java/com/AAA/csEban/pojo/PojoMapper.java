@@ -11,18 +11,18 @@ import java.util.List;
 @Repository
 public interface PojoMapper {
 
-     List<Notice> queryNoticeListForTeacher(int id);
+     public List<Notice> queryNoticeListForTeacher(int id);
 
-     Student queryStudentById(int id);
+     public Student queryStudentById(int id);
 
-     Teacher queryTeacherById(int id);
+     public Teacher queryTeacherById(int id);
 
-     Dept queryDeptById(int id);
+     public Dept queryDeptById(int id);
 
-     Notice queryNoticeById(int id);
+     public Notice queryNoticeById(int id);
 
 
-//
+
 //     int addAbsentRequest(AbsentRequest absentRequest);
 //
 //     int addLeaveRequest(LeaveRequest leaveRequest);

@@ -39,7 +39,7 @@ alter table absent_repuest comment '请假请求';
 /*==============================================================*/
 create table dept
 (
-   dept_id              int not null,
+   dept_id              int AUTO_INCREMENT not null,
    dept_name            varchar(20),
    dept_instrutor       int,
    primary key (dept_id)
@@ -66,7 +66,7 @@ alter table leave_repuest comment '离校请求';
 /*==============================================================*/
 create table notice
 (
-   notice_id            int not null,
+   notice_id            int AUTO_INCREMENT not null,
    teacher_id           int,
    notice_content       varchar(1024),
    primary key (notice_id)
@@ -79,7 +79,7 @@ alter table notice comment '公告';
 /*==============================================================*/
 create table request
 (
-   request_id           int not null,
+   request_id           int AUTO_INCREMENT not null,
    teacher_id           int,
    student_id           int,
    information          varchar(1024),
@@ -96,7 +96,7 @@ alter table request comment '请假请求';
 /*==============================================================*/
 create table student
 (
-   student_id           int not null,
+   student_id           int AUTO_INCREMENT not null,
    dept_id              int,
    student_name         varchar(20),
    student_class        varchar(5),
@@ -122,7 +122,7 @@ create table student_look_notice
 /*==============================================================*/
 create table teacher
 (
-   teacher_id           int not null,
+   teacher_id           int AUTO_INCREMENT not null,
    dept_id              int,
    teacher_name         varchar(20),
    primary key (teacher_id)

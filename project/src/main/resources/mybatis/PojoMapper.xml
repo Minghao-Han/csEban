@@ -37,6 +37,9 @@
         where N.teacher_id = #{id}
     </select>
 
+
+
+
     <resultMap id="StudentResultMap" type="com.AAA.csEban.pojo.Student">
         <id property="studentId" column="student_id"/>
         <result property="name" column="student_name"/>
