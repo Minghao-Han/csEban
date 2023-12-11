@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--namespace=绑定一个对应的Dao/Mapper接口-->
-<mapper namespace="com.AAA.csEban.pojo.PojoMapper">
+<mapper namespace="com.AAA.csEban.mapper.PojoMapper">
 
     <select id="queryStudentById" resultMap="StudentResultMap">
         select *
@@ -14,13 +14,11 @@
     <select id="queryDeptById" resultMap="DeptResultMap">
         select *
         from dept D
-            left outer join teacher T on D.dept_instrutor = T.teacher_id
         where D.dept_id = #{id}
     </select>
     <select id="queryTeacherById" resultMap="TeacherResultMap">
         select *
         from teacher T
-            left outer join dept D on T.dept_id = D.dept_id
         where T.teacher_id = #{id}
     </select>
     <select id="queryNoticeById" resultMap="NoticeResultMap">
@@ -32,13 +30,38 @@
 
     <select id="queryNoticeListForTeacher" resultMap="NoticeResultMap">
         select *
-        from notice N
-            left outer join teacher T on N.teacher_id = T.teacher_id
-        where N.teacher_id = #{id}
+        from teacher T
+            left outer join notice N on N.teacher_id = T.teacher_id
+        where T.teacher_id = #{id}
     </select>
-
-
-
+    <select id="selectTeacherById" resultMap="TeacherResultMap">
+        select * from teacher where teacher_id=#{id}
+    </select>
+    <select id="queryTeacherListForDept" resultMap="TeacherResultMap">
+        select *
+        from Dept D
+            left outer join teacher T on D.dept_id = T.dept_id
+        where D.dept_id = #{id}
+    </select>
+    <select id="queryAbsentRequestList" resultMap="AbsentRequestResultMap">
+        select *
+        from request R
+            left outer join absent_request A on R.request_id = A.request_id
+        where R.student_id = #{studentId} and R.type = 1
+    </select>
+    <update id="updateStudentLookNotice">
+        update student_look_notice
+        set is_read = 1
+        where notice_id = #{noticeId} and student_id = #{studentId}
+    </update>
+    <insert id="addRequest" parameterType="com.AAA.csEban.pojo.Request" useGeneratedKeys="true" keyColumn="request_id" keyProperty="requestId">
+        insert into request (teacher_id, student_id, information, is_agree, type) values
+        (#{teacher.teacherId}, #{student.studentId}, #{information}, #{isAgree}, #{type, typeHandler=com.AAA.csEban.mapper.RequestTypeHandle})
+    </insert>
+    <insert id="addAbsentRequest" parameterType="com.AAA.csEban.pojo.AbsentRequest">
+        insert into absent_request (request_id, starttime, endtime, course_name) values
+        (#{requestId},#{startTime}, #{endTime}, #{courseName})
+    </insert>
 
     <resultMap id="StudentResultMap" type="com.AAA.csEban.pojo.Student">
         <id property="studentId" column="student_id"/>
@@ -51,19 +74,44 @@
     <resultMap id="DeptResultMap" type="com.AAA.csEban.pojo.Dept">
         <id property="deptId" column="dept_id"/>
         <result property="name" column="dept_name"/>
-        <association property="instrutor" column="dept_instrutor" select="queryTeacherById"/>
     </resultMap>
 
     <resultMap id="TeacherResultMap" type="com.AAA.csEban.pojo.Teacher">
         <id property="teacherId" column="teacher_id"/>
-        <result property="name" column="teacher_name"/>
-        <association property="dept" column="dept_id" select="queryDeptById"/>
+        <result property="teacherName" column="teacher_name"/>
+        <result property="deptId" column="dept_id"/>
+        <!--<association property="deptId" column="dept_id" select="queryDeptById"/>-->
         <collection property="noticeList" ofType="com.AAA.csEban.pojo.Notice" select="queryNoticeListForTeacher" column="teacher_id"/>
     </resultMap>
 
     <resultMap id="NoticeResultMap" type="com.AAA.csEban.pojo.Notice">
         <id property="noticeId" column="notice_id"/>
         <result property="content" column="notice_content"/>
-        <association property="teacher" column="teacher_id" select="queryTeacherById"/>
+        <result property="teacherId" column="teacher_id"/>
     </resultMap>
+
+
+    <resultMap id="AbsentRequestResultMap" type="com.AAA.csEban.pojo.AbsentRequest">
+        <id property="requestId" column="request_id"/>
+        <result property="startTime" column="starttime"/>
+        <result property="endTime" column="endtime"/>
+        <result property="courseName" column="course_name"/>
+                         <!-- Request的ResultMap -->
+        <result property="information" column="information"/>
+        <result property="isAgree" column="is_agree"/>
+        <result property="refuseInformation" column="refuse_information"/>
+        <result property="type" column="type" typeHandler="com.AAA.csEban.mapper.RequestTypeHandle"/>
+        <association property="teacher" column="teacher_id" select="selectTeacherById"/>
+        <association property="student" column="student_id" select="queryStudentById"/>
+
+    </resultMap>
+    
+<!--    <resultMap id="LeaveRequestResultMap" type="com.AAA.csEban.pojo.LeaveRequest">
+        <id property="requestId" column="request_id"/>
+        <result property="leaveTime" column="leaveTime"/>
+        <result property="returnTime" column="returnTime"/>
+        <result property="destination" column="destination"/>
+    </resultMap>-->
+
+    
 </mapper>

@@ -11,5 +11,4 @@ import lombok.NoArgsConstructor;
 public class Dept {
     private int deptId;
     private String name;
-    private Teacher instrutor;
 }

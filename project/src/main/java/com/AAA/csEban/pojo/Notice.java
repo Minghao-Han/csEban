@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Notice {
     private int noticeId;
-    private Teacher teacher;
+    private String teacherId;
     private String content;
 }
