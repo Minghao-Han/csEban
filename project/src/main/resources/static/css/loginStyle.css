@@ -1,10 +1,10 @@
 body {
-    background-image: url('/images/loginBG.jpeg');
+    background-image: url('/static/images/loginBG.jpeg');
     background-size: cover;
     background-repeat: no-repeat
 }
 #login_form{
-    background-image: url('/images/subduedImg.jpeg');
+    background-image: url('/static/images/subduedImg.jpeg');
       background-size: cover; /* 使背景图覆盖整个元素 */
       background-position: center; /* 将背景图居中显示 */
       display: flex;

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>CS易办：让事更容易办</title>
-    <link rel="stylesheet" th:href="@{css/loginStyle.css}">
+    <link rel="stylesheet" th:href="@{static/css/loginStyle.css}">
     <script type="text/javascript">
         function checkInput() {
             var username = document.getElementById('username_input').value;
@@ -18,11 +18,11 @@
         <table th:id="login_data_table">
             <tr>
                 <td>用户名</td>
-                <td><input type="text" th:field="*{username}" th:id="username_input" onkeyup="checkInput()"/></td>
+                <td><input type="text" th:field="*{username}" th:id="username_input" onkeyup="checkInput()"></td>
             </tr>
             <tr>
                 <td>密码</td>
-                <td><input type="password" th:field="*{password}" th:id="password_input" onkeyup="checkInput()"/></td>
+                <td><input type="password" th:field="*{password}" th:id="password_input" onkeyup="checkInput()"></td>
             </tr>
             <tr>
                 <td>
@@ -37,4 +37,4 @@
     </form>
 </div>
 </body>
-</html>
+

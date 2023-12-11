@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <link rel="stylesheet" th:href="@{css/headerStyle.css}">-->
+<!--</head>-->
+<!--<body th:fragment="header">-->
+<!--<div>-->
+<!--    <div th:id="aaa">siuuuu</div>-->
+<!--    <img th:src="@{/images/topbanner.jpg}" alt="Example Image" />-->
+<!--    <div th:id="navigation_bar">-->
+<!--        <div th:class="dropdown">-->
+<!--            <button th:class="dropBtn">下拉菜单</button>-->
+<!--            <div th:class="dropdown_content">-->
+<!--                <a th:href="@{http://www.runoob.com}">菜鸟教程 1</a>-->
+<!--                <a th:href="@{http://www.runoob.com}">菜鸟教程 2</a>-->
+<!--                <a th:href="@{http://www.runoob.com}">菜鸟教程 3</a>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--</body>-->
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" th:href="@{css/headerStyle.css}">
+</head>
+<body>
+<div th:fragment="header">
+    <img th:src="@{/images/topbanner.jpg}" alt="Example Image" />
+    <div class="dropdown">
+        <button class="dropBtn">下拉菜单</button>
+        <div class="dropdown_content">
+            <a href="http://www.runoob.com">菜鸟教程 1</a>
+            <a href="http://www.runoob.com">菜鸟教程 2</a>
+            <a href="http://www.runoob.com">菜鸟教程 3</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
