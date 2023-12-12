@@ -8,8 +8,10 @@ import com.AAA.csEban.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+import java.util.Objects;
 
 @RequestMapping("/student/absent")
 @Controller
@@ -35,5 +37,12 @@ public class AbsentRequestController {
         leaveRequestForm.setDept(student.getDept().getName());
         model.addAttribute("leaveRequestForm",leaveRequestForm);
         return "studentPages/absentRequest";
+    }
+    @PostMapping
+    @ResponseBody
+    public String commitAbsentRequest(@RequestBody Map<String, Object> requestBody){
+        Integer StudentId = (Integer) requestBody.get("stNo");
+
+
     }
 }

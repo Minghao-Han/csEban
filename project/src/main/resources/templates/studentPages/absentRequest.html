@@ -27,6 +27,14 @@
 
     <tr><td align="center">&nbsp;任课教师姓名&nbsp;<input type="text" name="teacherName" style="width:250px;">
     </td></tr>
+    <tr>
+        <td align="center">审核人</td>
+        <td>
+            <select id="selectInstructor" name="selectInstructor">
+                <option th:each="instructor : *{instructorList}" th:value="${instructor}" th:text="${instructor.teacherName}"></option>
+            </select>
+        </td>
+    </tr>
     <tr><td align="center">&nbsp;课程名称(全称)&nbsp;<input type="text" name="courseName" style="width:270px;">
     </td></tr>
     <tr><td align="center">
@@ -63,7 +71,8 @@
                 leaveTimeEnd: $('input[name="leaveTimeEnd"]').val(),
                 teacherName: $('input[name="teacherName"]').val(),
                 courseName: $('input[name="courseName"]').val(),
-                rationale: $('textarea[name="rationale"]').val()
+                rationale: $('textarea[name="rationale"]').val(),
+                instructor : $('select[name="selectInstructor"]').val()
             };
 
             // 发送POST请求
