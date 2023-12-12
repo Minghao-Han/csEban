@@ -1,3 +1,7 @@
+.header img {
+            width: 100%;
+            object-fit: cover;
+        }
 .dropBtn {
     background-color: #4CAF50;
     color: white;

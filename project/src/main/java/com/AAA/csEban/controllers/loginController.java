@@ -1,4 +1,4 @@
-package com.AAA.csEban.login;
+package com.AAA.csEban.controllers;
 
 import com.AAA.csEban.Utils.JwtUtils;
 import com.AAA.csEban.formObjs.LoginUser;
