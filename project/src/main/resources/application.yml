@@ -1,2 +1,16 @@
 server:
   port: 8080
+
+mybatis:
+  type-aliases-package: com.AAA.csEban.pojo
+  mapper-locations: classpath:mybatis/*.xml
+  config-location: classpath:/mybatis-config.xml
+
+
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/cseban?characterEncoding=utf-8&useUnicode=true
+    username: root
+    password: 123456
