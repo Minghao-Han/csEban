@@ -1,0 +1,36 @@
+body {
+    background-image: url('/static/images/loginBG.jpeg');
+    background-size: cover;
+    background-repeat: no-repeat
+}
+#login_form{
+    background-image: url('/static/images/subduedImg.jpeg');
+      background-size: cover; /* 使背景图覆盖整个元素 */
+      background-position: center; /* 将背景图居中显示 */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 30%;
+      height: 30vh;
+      border: 3px solid black;
+}
+#login_data_table {
+  width: 100%; /* 让 table 元素占据父级 div 元素宽度的 100% */
+  font-size: 1.25em; /* 使用相对单位em，使字体大小随着父元素的字体大小而变化 */
+}
+
+input[type="text"],
+input[type="password"],
+select {
+  width: 100%; /* 输入框和下拉框占据父级元素的宽度 */
+  font-size: 1.25em; /* 使用相对单位em，使字体大小随着父元素的字体大小而变化 */
+}
+
+button {
+  font-size: 1.25em; /* 使用相对单位em，使按钮字体大小随着父元素的字体大小而变化 */
+}
+
