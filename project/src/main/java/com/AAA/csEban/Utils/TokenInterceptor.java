@@ -19,10 +19,10 @@ public class TokenInterceptor implements HandlerInterceptor {
         String token = (String)request.getSession().getAttribute("jwt");
         String requestUrl = request.getServletPath();
         if (token!=null){
-            JwtVerifyResult result = JwtUtils.verifyJwt(token);
-            // 验证token,user和admin用不同的验证方式
-            if (result.validate && requestUrl.contains(result.userRole)) {
+            JwtVerifyResult verifyResult = JwtUtils.verifyJwt(token);
+            if (verifyResult.validate && requestUrl.contains(verifyResult.userRole)) {
                 System.out.println("request passed,url is "+requestUrl);
+                request.setAttribute("userId",verifyResult.userId);
                 return true;
             }
         }
