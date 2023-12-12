@@ -44,10 +44,10 @@ public class JwtUtils {
 //            System.out.println("认证通过：");
 //            System.out.println("id: " + decodedJWT.getClaim("id").asInt());
 //            System.out.println("过期时间：" + decodedJWT.getExpiresAt());
-            return new JwtVerifyResult(true,decodedJWT.getClaim("role").asString());
+            return new JwtVerifyResult(true,decodedJWT.getClaim("role").asString(),decodedJWT.getClaim("id").asInt());
         } catch (IllegalArgumentException | JWTVerificationException e) {
             //抛出错误即为验证不通过
-            return new JwtVerifyResult(false,null);
+            return new JwtVerifyResult(false,null,null);
         }
     }
 
@@ -75,4 +75,5 @@ public class JwtUtils {
 class JwtVerifyResult{
     boolean validate;
     String userRole;
+    Integer userId;
 }

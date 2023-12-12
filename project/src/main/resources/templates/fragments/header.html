@@ -3,19 +3,25 @@
 <head>
     <title></title>
     <meta charset="utf-8">
-    <link rel="stylesheet" th:href="@{css/headerStyle.css}">
+    <link rel="stylesheet" th:href="@{static/css/headerStyle.css}">
 </head>
 <body>
 <div th:fragment="header">
-    <img th:src="@{/images/topbanner.jpg}" alt="Example Image" />
-    <div class="dropdown">
-        <button class="dropBtn">下拉菜单</button>
-        <div class="dropdown_content">
-            <a href="http://www.runoob.com">菜鸟教程 1</a>
-            <a href="http://www.runoob.com">菜鸟教程 2</a>
-            <a href="http://www.runoob.com">菜鸟教程 3</a>
-        </div>
-    </div>
+    <table>
+        <tr><td><img th:src="@{/static/images/topbanner.jpg}" th:id="topBanner" alt="Example Image" /></td></tr>
+        <tr>
+            <td>
+                <div class="dropdown">
+                    <button class="dropBtn">下拉菜单</button>
+                    <div class="dropdown_content">
+                        <a th:href="@{student/leave}">请假</a>
+                        <a href="http://www.runoob.com">菜鸟教程 2</a>
+                        <a href="http://www.runoob.com">菜鸟教程 3</a>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
 </div>
 </body>
 </html>

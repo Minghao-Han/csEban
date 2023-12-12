@@ -206,4 +206,31 @@ INSERT INTO `teacher` VALUES (1111, 1, '高珺');
 INSERT INTO `teacher` VALUES (1112, 1, '韩波');
 INSERT INTO `teacher` VALUES (1113, 1, '达尔罕');
 
+-- ----------------------------
+-- Table structure for stu_account
+-- ----------------------------
+DROP TABLE IF EXISTS `stu_account`;
+CREATE TABLE `stu_account` (
+  `student_id` int NOT NULL,
+  `password` varchar(255) NOT NULL DEFAULT '123456',
+  PRIMARY KEY (`student_id`),
+  CONSTRAINT `stuIdFK` FOREIGN KEY (`student_id`) REFERENCES `student` (`student_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+-- ----------------------------
+-- Records of stu_account
+-- ----------------------------
+INSERT INTO `stu_account` VALUES (1, '123456');
+
+-- ----------------------------
+-- Table structure for teacher_account
+-- ----------------------------
+DROP TABLE IF EXISTS `teacher_account`;
+CREATE TABLE `teacher_account` (
+  `teacher_id` int NOT NULL,
+  `password` varchar(255) NOT NULL DEFAULT '123456',
+  PRIMARY KEY (`teacher_id`),
+  CONSTRAINT `teacher_idFK` FOREIGN KEY (`teacher_id`) REFERENCES `teacher` (`teacher_id`) ON DELETE CASCADE
+)
+
 SET FOREIGN_KEY_CHECKS = 1;

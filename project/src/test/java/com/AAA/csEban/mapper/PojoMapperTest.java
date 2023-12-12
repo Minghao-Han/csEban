@@ -36,4 +36,8 @@ public class PojoMapperTest {
         pojoMapper.addRequest(absentRequest);
         pojoMapper.addAbsentRequest(absentRequest);
     }
+    @Test
+    public void testQueryStudent(){
+        System.out.println(pojoMapper.queryStudentById(34));
+    }
 }

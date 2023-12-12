@@ -3,21 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>CS易办：让事更容易办</title>
+    <link rel="stylesheet" href="/static/css/headerStyle.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" th:href="@{static/css/jquery_ui.css}">
-    <link rel="stylesheet" th:href="@{static/css/headerStyle.css}">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
 </head>
 <body>
 <div th:replace="~{fragments/header::header}"></div>
-<table border="1" style="border-collapse:collapse;" width="450" th:object="${leaveRequest}}">
+<table border="1" style="border-collapse:collapse;" width="450" th:object="${leaveRequestForm}">
     <tbody><tr><td align="center"><strong><font color="red"><br>计算机学院本科生临时缺课请假备案表</font></strong><br>(请逐项认真填写，否则返工很麻烦的哦)<br><br></td></tr>
     <tr><td align="center">&nbsp;学号
         <input style="width:139px;" readonly="readonly" type="text" name="stNo" th:value="*{studentId}">&nbsp;姓名
         <input style="width:138px;" readonly="readonly" type="text" name="name" th:value="*{name}">
-        <br>&nbsp;班级&nbsp;<input style="width:139px;" readonly="readonly" type="text" name="class" th:value="'*{dept}'+'*{nclass}'">&nbsp;年级&nbsp;<input style="width:138px;" readonly="readonly" type="text" name="grade" th:value="*{grade}"></td></tr>
+        <br>&nbsp;班级&nbsp;<input style="width:139px;" readonly="readonly" type="text" name="class" th:value="*{dept}+*{nclass}">&nbsp;年级&nbsp;<input style="width:138px;" readonly="readonly" type="text" name="grade" th:value="*{grade}"></td></tr>
 
-    <tr><td align="center" valign="middle">&nbsp;请假日期
+    <tr><td align="center" valign="middle">&nbsp;请假起始日期
         <input style="width:80px;" readonly="readonly" type="text" id="datetimepicker1" class="datetimepicker" name="leaveTimeStart">
+    </td></tr>
+    <tr><td align="center" valign="middle">&nbsp;请假结束日期
         <input style="width:80px;" readonly="readonly" type="text" id="datetimepicker2" class="datetimepicker" name="leaveTimeEnd">
     </td></tr>
 
