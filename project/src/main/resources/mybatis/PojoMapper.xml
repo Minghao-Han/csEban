@@ -43,6 +43,13 @@
             left outer join teacher T on D.dept_id = T.dept_id
         where D.dept_id = #{id}
     </select>
+    <select id="queryInstructorListForDept" resultMap="TeacherResultMap">
+        select *
+        from Dept D
+            left outer join instructor I on D.dept_id = I.dept_id
+            left outer join teacher T on T.teacher_id = I.teacher_id
+        where D.dept_id = #{id}
+    </select>
     <select id="queryAbsentRequestList" resultMap="AbsentRequestResultMap">
         select *
         from request R

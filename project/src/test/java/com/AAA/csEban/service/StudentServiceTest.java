@@ -17,9 +17,11 @@ public class StudentServiceTest {
     @Test
     public void test1(){
         List<AbsentRequest> absentRequestList;
+        List<Teacher> teacherList;
         studentService.lookNotice(2, 34);
         System.out.println(studentService.getStudentInfo(34));
         absentRequestList = studentService.getAbsentRequestList(34);
+        teacherList = studentService.getInstructorListByStudentId(34);
         int a = 1;
     }
 }

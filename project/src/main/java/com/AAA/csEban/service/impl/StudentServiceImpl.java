@@ -54,4 +54,10 @@ public class StudentServiceImpl implements StudentService {
     public List<AbsentRequest> getAbsentRequestList(int studentId) {
         return pojoMapper.queryAbsentRequestList(studentId);
     }
+
+    @Override
+    public List<Teacher> getInstructorListByStudentId(int studentId) {
+        Student student = pojoMapper.queryStudentById(studentId);
+        return pojoMapper.queryInstructorListForDept(student.getDept().getDeptId());
+    }
 }
