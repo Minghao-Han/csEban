@@ -1,7 +1,11 @@
-.header img {
-            width: 100%;
-            object-fit: cover;
-        }
+table {
+    width: 100%;
+    table-layout: fixed;
+}
+#topBanner {
+    width: 100%;
+    object-fit: cover;
+}
 .dropBtn {
     background-color: #4CAF50;
     color: white;
@@ -39,8 +43,4 @@
 
 .dropdown:hover .dropBtn {
     background-color: #3e8e41;
-}
-
-a{
-font-size: 1.5em;
 }

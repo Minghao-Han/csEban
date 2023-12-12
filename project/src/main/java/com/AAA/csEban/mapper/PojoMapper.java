@@ -3,7 +3,6 @@ package com.AAA.csEban.mapper;
 
 import com.AAA.csEban.pojo.*;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LeaveRequest {
+public class LeaveRequestForm {
     int studentId;
     String name;
     String grade;
