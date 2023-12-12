@@ -1,5 +1,6 @@
 package com.AAA.csEban.controller;
 
+import com.AAA.csEban.Utils.UserId;
 import com.AAA.csEban.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,8 +12,8 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
 
-    @GetMapping("/student/{id}")
-    public String showStudentInfo(@PathVariable(name = "id") int id){
+    @GetMapping("/student/info")
+    public String showStudentInfo(@UserId int id){
         return studentService.getStudentInfo(id).toString();
     }
 }

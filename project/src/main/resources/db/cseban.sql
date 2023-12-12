@@ -220,7 +220,7 @@ CREATE TABLE `stu_account` (
 -- ----------------------------
 -- Records of stu_account
 -- ----------------------------
-INSERT INTO `stu_account` VALUES (1, '123456');
+INSERT INTO `stu_account` VALUES (34, '123456');
 
 -- ----------------------------
 -- Table structure for teacher_account

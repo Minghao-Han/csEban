@@ -12,6 +12,8 @@ public interface PojoMapper {
 
      List<Teacher> queryTeacherListForDept(int id);
 
+     List<Teacher> queryInstructorListForDept(int id);
+
      List<AbsentRequest> queryAbsentRequestList(int studentId);
 
      Student queryStudentById(int id);
