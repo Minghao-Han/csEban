@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <title>CS易办：让事更容易办</title>
     <link rel="stylesheet" href="/static/css/headerStyle.css">
+    <link rel="stylesheet" href="/static/css/jquery.datetimepicker.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+    <script src="/static/js/jquery.datetimepicker.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
 </head>
 <body>
 <div th:replace="~{fragments/header::header}"></div>
@@ -28,10 +29,9 @@
     <tr><td align="center">&nbsp;任课教师姓名&nbsp;<input type="text" name="teacherName" style="width:250px;">
     </td></tr>
     <tr>
-        <td align="center">审核人</td>
-        <td>
+        <td align="center">审核人
             <select id="selectInstructor" name="selectInstructor">
-                <option th:each="instructor : *{instructorList}" th:value="${instructor}" th:text="${instructor.teacherName}"></option>
+                <option th:each="instructor : *{instructorList}" th:value="${instructor.teacherId}" th:text="${instructor.teacherName}"></option>
             </select>
         </td>
     </tr>
@@ -41,7 +41,8 @@
         &nbsp;请假详细事由&nbsp;<textarea name="rationale" cols="42" rows="2"></textarea></td></tr>
     <tr><td align="center">&nbsp;我已确认&nbsp;<textarea name="promise" cols="42" rows="2" disabled="disabled">本人将自行补上缺课导致的学业耽搁，并已知晓可能由于考勤不足而影响缺课课程的平时成绩。</textarea>
     </td></tr>
-    <tr><td align="center"><br><input type="submit" name="submitButton" value="请认真核对后提交离校请假备案申请"><br><br></td></tr>
+<!--    <tr><td align="center"><br><input type="submit" name="submitButton" value="请认真核对后提交离校请假备案申请"><br><br></td></tr>-->
+    <tr><td align="center"><button id="submitButton">请认真核对后提交离校请假备案申请</button></td></tr>
     </tbody></table>
 
 <!--设置日期选择框-->
@@ -72,13 +73,13 @@
                 teacherName: $('input[name="teacherName"]').val(),
                 courseName: $('input[name="courseName"]').val(),
                 rationale: $('textarea[name="rationale"]').val(),
-                instructor : $('select[name="selectInstructor"]').val()
+                instructorId : $('select[name="selectInstructor"]').val()
             };
 
             // 发送POST请求
             $.ajax({
                 type: "POST",
-                url: "localhost:8080/leaveRequest",  // 替换为实际的URL
+                url: "http://localhost:8080/student/absent",  // 替换为实际的URL
                 data: JSON.stringify(formData),
                 contentType: "application/json",
                 success: function(response) {

@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LeaveRequestForm {
+public class RequestForm {
     int studentId;
     String name;
     String grade;
@@ -21,5 +21,6 @@ public class LeaveRequestForm {
     String teacherName;
     String courseName;
     String rationale;
+    String destination;
     List<Teacher> instructorList;
 }
