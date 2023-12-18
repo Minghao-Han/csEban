@@ -1,16 +1,15 @@
 package com.AAA.csEban.controller;
 
 import com.AAA.csEban.Utils.Msg;
-import com.AAA.csEban.Utils.String2LocalDateTime;
+import com.AAA.csEban.Utils.DateUtils;
 import com.AAA.csEban.Utils.UserId;
 import com.AAA.csEban.formObjs.RequestForm;
-import com.AAA.csEban.pojo.AbsentRequest;
-import com.AAA.csEban.pojo.Student;
-import com.AAA.csEban.pojo.Teacher;
+import com.AAA.csEban.pojo.*;
 import com.AAA.csEban.service.RequestService;
 import com.AAA.csEban.service.StudentService;
 import com.AAA.csEban.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +17,7 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 @RequestMapping("/student/leave")
+@Controller
 public class LeaveRequestController {
     @Autowired
     StudentService studentService;
@@ -44,29 +44,36 @@ public class LeaveRequestController {
         requestForm.setDept(student.getDept().getName());
         requestForm.setInstructorList(studentService.getInstructorListByStudentId(stuId));
         model.addAttribute("leaveRequestForm", requestForm);
-        return "studentPages/absentRequest";
+        return "studentPages/leaveRequest";
     }
     @PostMapping
     @ResponseBody
-    public String commitLeaveRequest(@RequestBody Map<String, Object> requestBody){
-        Integer studentId = Integer.parseInt((String) requestBody.get("studentId"));
+    public String commitLeaveRequest(@RequestBody Map<String, Object> requestBody,@UserId Integer studentId){
         Student student = studentService.getStudentInfo(studentId);
-        String information = (String) requestBody.get("rationale");
+
+        String information1 = (String) requestBody.get("rationale");
+        String information2 = (String) requestBody.get("rationaleElaboration");
+
+        String destination = (String) requestBody.get("destination");
+
         Integer instructorId = Integer.parseInt((String) requestBody.get("instructorId"));
         Teacher instructor = teacherService.selectById(instructorId);
-        String courseName = (String) requestBody.get("courseName");
-        String leaveTimeStartStr = (String) requestBody.get("leaveTimeStart");
-        String leaveTimeEndStr = (String) requestBody.get("leaveTimeEnd");
-        LocalDateTime startTime = String2LocalDateTime.transform(leaveTimeStartStr);
-        LocalDateTime endTime = String2LocalDateTime.transform(leaveTimeEndStr);
-        AbsentRequest absentRequest = new AbsentRequest();
-        absentRequest.setStudent(student);
-        absentRequest.setCourseName(courseName);
-        absentRequest.setInformation(information);
-        absentRequest.setTeacher(instructor);
-        absentRequest.setStartTime(startTime);
-        absentRequest.setEndTime(endTime);
-        requestService.addAbsentRequest(absentRequest);
+
+        String leaveTimeStr = (String) requestBody.get("leaveTime");
+        String returnTimeStr = (String) requestBody.get("returnTime");
+        LocalDateTime leaveTime = DateUtils.String2LocalDateTime(leaveTimeStr);
+        LocalDateTime returnTime = DateUtils.String2LocalDateTime(returnTimeStr);
+
+        LeaveRequest leaveRequest = new LeaveRequest();
+        leaveRequest.setStudent(student);
+        leaveRequest.setInformation(information1+":"+information2);
+        leaveRequest.setTeacher(instructor);
+        leaveRequest.setLeaveTime(leaveTime);
+        leaveRequest.setReturnTime(returnTime);
+        leaveRequest.setDestination(destination);
+        leaveRequest.setType(RequestType.E_LeaveRequest_Type);
+        System.out.println(leaveRequest);
+        requestService.addLeaveRequest(leaveRequest);
         return "ok";
     }
 }

@@ -6,8 +6,7 @@
 <body>
 <div th:replace="~{fragments/header::header}"></div>
 <div th:object="${loginUser}">
-    <p th:text="*{username}">username</p>
-    <p th:text="*{password}">password</p>
+    <h1>欢迎</h1><h1 th:text="*{username}">学号</h1><h1 th:text="${name}">名字</h1><h1>使用CS易办学生事务服务云平台</h1>
 </div>
 </body>
 </html>

@@ -16,11 +16,5 @@ public class RequestForm {
     String grade;
     String dept;
     String nclass;
-    String leaveTimeStart;
-    String leaveTimeEnd;
-    String teacherName;
-    String courseName;
-    String rationale;
-    String destination;
     List<Teacher> instructorList;
 }

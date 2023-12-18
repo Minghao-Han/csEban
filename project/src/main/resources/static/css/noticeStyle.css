@@ -1,0 +1,34 @@
+table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.notice-container table {
+    width: 100%;
+    border-collapse: collapse;  /* Ensures borders are collapsed into a single border */
+}
+
+.notice-container tr {
+    border-bottom: 1px solid #ddd; /* Adds a bottom border to each table row */
+}
+
+.notice-container td {
+    padding: 8px; /* Optional: Adds padding to table cells for better readability */
+}
+
+.notice {
+    color: red;
+    margin-bottom: 15px;
+}
+
+.notice.checked {
+    color: black;
+}
+
+.checkBtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}

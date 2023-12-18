@@ -1,6 +1,6 @@
 package com.AAA.csEban.pojo;
 
-public enum RequeseType {
+public enum RequestType {
     E_AbsentRequest_Type,
     E_LeaveRequest_Type
 }

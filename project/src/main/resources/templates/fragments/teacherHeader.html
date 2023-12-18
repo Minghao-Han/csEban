@@ -12,22 +12,21 @@
         <div class="dropdown">
             <button class="dropBtn">请假</button>
             <div class="dropdown_content">
-                <a th:href="@{/student/absent}">缺课请假</a>
-                <a th:href="@{/student/leave}">离校申请</a>
+                <a th:href="@{/student/absent}">审批缺课请假</a>
+                <a th:href="@{/student/leave}">审批离校申请</a>
             </div>
         </div>
         <div class="dropdown">
             <button class="dropBtn">公告</button>
             <div class="dropdown_content">
-                <a th:href="@{/student/notice}">公告</a>
+                <a th:href="@{/student/notice}">过往公告</a>
+                <a th:href="@{/student/notice}">发布公告</a>
             </div>
         </div>
         <div class="dropdown">
             <button class="dropBtn">我的</button>
             <div class="dropdown_content">
                 <a th:href="@{/student/info}">个人信息</a>
-                <a th:href="@{/student/absent/history}">请假历史</a>
-                <a th:href="@{/student/leave/history}">离校历史</a>
             </div>
         </div>
     </div>
