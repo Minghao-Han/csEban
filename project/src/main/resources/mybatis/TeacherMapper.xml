@@ -10,7 +10,81 @@
         <!--<association property="deptId" column="dept_id" select="queryDeptById"/>-->
         <!--<collection property="noticeList" ofType="com.AAA.csEban.pojo.Notice" select="queryNoticeListForTeacher" column="teacher_id"/>-->
     </resultMap>
+
+    <resultMap id="RequestResultMap" type="com.AAA.csEban.pojo.Request">
+        <result property="information" column="information"/>
+        <result property="isAgree" column="is_agree"/>
+        <result property="refuseInformation" column="refuse_information"/>
+        <result property="type" column="type" typeHandler="com.AAA.csEban.mapper.RequestTypeHandle"/>
+        <association property="teacher" column="teacher_id" select="selectByTeacherId"/>
+        <association property="student" column="student_id" select="selectByStudentId"/>
+    </resultMap>
+
+    <resultMap id="AbsentRequestResultMap" type="com.AAA.csEban.pojo.AbsentRequest" extends="RequestResultMap">
+        <id property="requestId" column="request_id"/>
+        <result property="startTime" column="starttime"/>
+        <result property="endTime" column="endtime"/>
+        <result property="courseName" column="course_name"/>
+    </resultMap>
+
+    <resultMap id="LeaveRequestResultMap" type="com.AAA.csEban.pojo.LeaveRequest" extends="RequestResultMap">
+        <id property="requestId" column="request_id"/>
+        <result property="leaveTime" column="leaveTime"/>
+        <result property="returnTime" column="returnTime"/>
+        <result property="destination" column="destination"/>
+    </resultMap>
+
+    <resultMap id="StudentResultMap" type="com.AAA.csEban.pojo.Student">
+        <id property="studentId" column="student_id"/>
+        <result property="name" column="student_name"/>
+        <result property="nclass" column="student_class"/>
+        <result property="grade" column="student_grade"/>
+        <association property="dept" column="dept_id" select="queryDeptById"/>
+    </resultMap>
+
+    <resultMap id="DeptResultMap" type="com.AAA.csEban.pojo.Dept">
+        <id property="deptId" column="dept_id"/>
+        <result property="name" column="dept_name"/>
+    </resultMap>
+
+
+    <insert id="insertNotice">
+        <!--id自增-->
+        insert into cseban.notice Value(0,#{teacherId},#{content})
+    </insert>
+    <insert id="noticeStudent">
+        insert into cseban.student_look_notice value (#{num},#{id},0);
+    </insert>
+    <update id="agreeRequestById">
+        update cseban.request set is_agree=1 where request_id=#{requestID};
+    </update>
+    <update id="disagreeRequestById">
+        update cseban.request set is_agree=0,refuse_information=#{reason} where request_id=#{requestID}
+    </update>
+    <select id="selectRequestById" resultMap="RequestResultMap">
+        select * from cseban.request where request_id=#{requestId}
+    </select>
+    <select id="selectByStudentId" resultMap="StudentResultMap">
+        select * from cseban.student where student_id = #{student}
+    </select>
+    <select id="queryDeptById" resultMap="DeptResultMap">
+        select * from cseban.dept where dept_id=#{dept}
+    </select>
     <select id="selectByTeacherId" resultMap="TeacherResultMap">
-        select * from teacher where teacher_id = #{id};
+        select * from cseban.teacher where teacher_id = #{teacher};
+    </select>
+    <select id="queryNoticeNum" resultType="java.lang.Integer">
+        select count(*) from cseban.notice;
+    </select>
+    <select id="searchStudentByGrade" resultType="java.lang.Integer">
+        select cseban.student.student_id from cseban.student where student_grade=#{grade}
+    </select>
+    <select id="getAbsentRequestByTeacherId" resultMap="AbsentRequestResultMap">
+        select * from cseban.request R inner join cseban.absent_request AR on R.request_id = AR.request_id
+        where teacher_id=#{id}
+    </select>
+    <select id="getLeaveRequestByTeacherId" resultMap="LeaveRequestResultMap">
+        select * from cseban.request R inner join cseban.leave_request LR on R.request_id = LR.request_id
+        where teacher_id=#{id}
     </select>
 </mapper>
