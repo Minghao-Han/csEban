@@ -4,9 +4,7 @@ import com.AAA.csEban.Utils.Msg;
 import com.AAA.csEban.Utils.String2LocalDateTime;
 import com.AAA.csEban.Utils.UserId;
 import com.AAA.csEban.formObjs.RequestForm;
-import com.AAA.csEban.pojo.AbsentRequest;
-import com.AAA.csEban.pojo.Student;
-import com.AAA.csEban.pojo.Teacher;
+import com.AAA.csEban.pojo.*;
 import com.AAA.csEban.service.RequestService;
 import com.AAA.csEban.service.StudentService;
 import com.AAA.csEban.service.TeacherService;
@@ -44,7 +42,7 @@ public class LeaveRequestController {
         requestForm.setDept(student.getDept().getName());
         requestForm.setInstructorList(studentService.getInstructorListByStudentId(stuId));
         model.addAttribute("leaveRequestForm", requestForm);
-        return "studentPages/absentRequest";
+        return "studentPages/leaveRequest";
     }
     @PostMapping
     @ResponseBody
@@ -54,19 +52,19 @@ public class LeaveRequestController {
         String information = (String) requestBody.get("rationale");
         Integer instructorId = Integer.parseInt((String) requestBody.get("instructorId"));
         Teacher instructor = teacherService.selectById(instructorId);
-        String courseName = (String) requestBody.get("courseName");
         String leaveTimeStartStr = (String) requestBody.get("leaveTimeStart");
         String leaveTimeEndStr = (String) requestBody.get("leaveTimeEnd");
         LocalDateTime startTime = String2LocalDateTime.transform(leaveTimeStartStr);
         LocalDateTime endTime = String2LocalDateTime.transform(leaveTimeEndStr);
-        AbsentRequest absentRequest = new AbsentRequest();
-        absentRequest.setStudent(student);
-        absentRequest.setCourseName(courseName);
-        absentRequest.setInformation(information);
-        absentRequest.setTeacher(instructor);
-        absentRequest.setStartTime(startTime);
-        absentRequest.setEndTime(endTime);
-        requestService.addAbsentRequest(absentRequest);
+        LeaveRequest leaveRequest = new LeaveRequest();
+
+        leaveRequest.setType(RequeseType.E_LeaveRequest_Type);
+        leaveRequest.setLeaveTime(startTime);
+        leaveRequest.setReturnTime(endTime);
+        leaveRequest.setTeacher(instructor);
+        leaveRequest.setStudent(student);
+        leaveRequest.setInformation(information);
+
         return "ok";
     }
 }

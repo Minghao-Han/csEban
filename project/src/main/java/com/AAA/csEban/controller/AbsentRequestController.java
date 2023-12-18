@@ -5,6 +5,7 @@ import com.AAA.csEban.Utils.String2LocalDateTime;
 import com.AAA.csEban.Utils.UserId;
 import com.AAA.csEban.formObjs.RequestForm;
 import com.AAA.csEban.pojo.AbsentRequest;
+import com.AAA.csEban.pojo.RequeseType;
 import com.AAA.csEban.pojo.Student;
 import com.AAA.csEban.pojo.Teacher;
 import com.AAA.csEban.service.RequestService;
@@ -68,6 +69,7 @@ public class AbsentRequestController {
         absentRequest.setTeacher(instructor);
         absentRequest.setStartTime(startTime);
         absentRequest.setEndTime(endTime);
+        absentRequest.setType(RequeseType.E_AbsentRequest_Type);
         requestService.addAbsentRequest(absentRequest);
         return "ok";
     }
