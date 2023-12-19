@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>CS易办：让事更容易办</title>
+    <link rel="stylesheet" href="/static/css/headerStyle.css">
+    <link rel="stylesheet" href="/static/css/jquery.datetimepicker.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/static/js/jquery.datetimepicker.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+</head>
+<body>
+<div th:replace="~{fragments/header::header}"></div>
+<table border="1" style="border-collapse:collapse;" width="450" th:object="${leaveRequestForm}">
+    <tbody><tr><td align="center"><strong><font color="red"><br>计算机学院本科生离校请假备案表</font></strong><br>(请逐项认真填写，否则返工很麻烦的哦)<br><br></td></tr>
+    <tr><td align="center">&nbsp;学号
+        <input style="width:139px;" readonly="readonly" type="text" name="stNo" th:value="*{studentId}">&nbsp;姓名
+        <input style="width:138px;" readonly="readonly" type="text" name="name" th:value="*{name}">
+        <br>&nbsp;班级&nbsp;<input style="width:139px;" readonly="readonly" type="text" name="class" th:value="*{dept}+*{nclass}">&nbsp;年级&nbsp;<input style="width:138px;" readonly="readonly" type="text" name="grade" th:value="*{grade}">
+    </td></tr>
+    <tr>
+        <td align="center">审核人
+            <select id="selectInstructor" name="selectInstructor">
+                <option th:each="instructor : *{instructorList}" th:value="${instructor.teacherId}" th:text="${instructor.teacherName}"></option>
+            </select>
+        </td>
+    </tr>
+    <tr><td align="center">&nbsp;事由类别&nbsp;<select name="rationale" style="width:302px;" value="请如实选择">
+        <option value="" select="selected">请如实选择</option>
+        <option value="图书馆通宵自习" >图书馆通宵自习</option>
+        <option value="放假提前回家">放假提前回家</option>
+        <option value="单位外派">单位外派</option>
+        <option value="老师外派">老师外派</option>
+        <option value="回家探亲">回家探亲</option>
+        <option value="亲人结婚">亲人结婚</option>
+        <option value="亲人去世">亲人去世</option>
+        <option value="亲人生病">亲人生病</option>
+        <option value="生病诊治">生病诊治</option>
+        <option value="心理调适">心理调适</option>
+        <option value="自主实习">自主实习</option>
+        <option value="自主实习">课程实习</option>
+        <option value="就业洽谈">就业洽谈</option>
+        <option value="就业面试">就业面试</option>
+        <option value="参加夏令营">参加夏令营</option>
+        <option value="升学复试">升学复试</option>
+        <option value="社会实践">社会实践</option>
+        <option value="国际交流">国际交流</option>
+        <option value="国际交流">境外交流</option>
+        <option value="办理签证">办理签证</option>
+        <option value="自主旅游">自主旅游</option>
+        <option value="其它事由">其它事由</option>
+        <option value="临时外住">临时外住</option>
+    </select>
+
+
+
+        <br>&nbsp;详细事由&nbsp;<input type="text" name="rationaleElaboration" style="width:298px;" class="clean"></td></tr>
+    <tr><td align="center">&nbsp;计划离校时刻
+        <input style="width:266px;" readonly="readonly" type="text" id="datetimepicker1" class="datetimepicker" name="leaveTime">
+        <br>&nbsp;计划返校时刻
+        <input style="width:266px;" readonly="readonly" type="text" id="datetimepicker2" class="datetimepicker" name="returnTime">
+
+    </td></tr>
+    <tr><td align="center">&nbsp;去往详细地点&nbsp;<input class="clean" type="text" name="destination" style="width:266px;">
+    </td></tr>
+
+
+    <tr><td><font color="red"><strong>【本人确认】<br>&nbsp;&nbsp;&nbsp;&nbsp;1.我已告知家长我的离校计划，并征得家长同意；<br>&nbsp;&nbsp;&nbsp;&nbsp;2.本人已完成教学计划安排的任务或者愿意承担并会在返校后积极补回由于请假引起的学业耽误；<br>&nbsp;&nbsp;&nbsp;&nbsp;3.外出期间的食宿等问题自己已协调好；<br>&nbsp;&nbsp;&nbsp;&nbsp;4.辅导员已经对我进行了相关安全教育；<br>&nbsp;&nbsp;&nbsp;&nbsp;5.请假期间的自身安全由我本人负责；<br>&nbsp;&nbsp;&nbsp;&nbsp;6.我和家长都已知晓2002年8月颁布的教育部令第12号《学生伤害事故处理办法》的相关规定,（详见《学生手册》）。</strong></font> </td></tr>
+    <tr><td align="center"><br><button id="submitButton">我已核对并确认以上信息，提交离校请假备案申请</button><br><br></td></tr>
+    </tbody></table>
+
+<!--设置日期选择框-->
+<script th:inline="javascript">
+    $(document).ready(function() {
+        $('.datetimepicker').datetimepicker({
+            dateFormat: 'yy-mm-dd',
+            timeFormat: 'HH:mm',
+            stepMinute: 1,
+            autoclose: true
+        });
+    });
+</script>
+<!--提交按钮的动作-->
+<script th:inline="javascript">
+    $(document).ready(function() {
+        $('#submitButton').click(function(e) {
+            e.preventDefault(); // 阻止表单默认提交行为
+
+            // 获取表格中的所有输入框的值
+            var formData = {
+                leaveTime: $('input[name="leaveTime"]').val(),
+                returnTime: $('input[name="returnTime"]').val(),
+                destination: $('input[name="destination"]').val(),
+                rationaleElaboration: $('input[name="rationaleElaboration"]').val(),
+                instructorId : $('select[name="selectInstructor"]').val(),
+                rationale : $('select[name="rationale"]').val()
+            };
+
+            // 发送POST请求
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:8080/student/leave",
+                data: JSON.stringify(formData),
+                contentType: "application/json",
+                success: function(response) {
+                    // 请求成功则清空输入框
+                    $('input[class="clean"],input[class="datetimepicker"],textarea').val(''); // 清空输入框
+                    alert('提交成功');
+                },
+                error: function() {
+                    // 请求失败则提示失败
+                    alert('提交失败');
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

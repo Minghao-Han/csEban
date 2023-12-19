@@ -4,14 +4,15 @@
     <meta charset="UTF-8">
     <title>CS易办：让事更容易办</title>
     <link rel="stylesheet" href="/static/css/headerStyle.css">
+    <link rel="stylesheet" href="/static/css/jquery.datetimepicker.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+    <script src="/static/js/jquery.datetimepicker.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
 </head>
 <body>
 <div th:replace="~{fragments/header::header}"></div>
-<table border="1" style="border-collapse:collapse;" width="450" th:object="${leaveRequestForm}">
+<table border="1" style="border-collapse:collapse;" width="450" th:object="${absentRequestForm}">
     <tbody><tr><td align="center"><strong><font color="red"><br>计算机学院本科生临时缺课请假备案表</font></strong><br>(请逐项认真填写，否则返工很麻烦的哦)<br><br></td></tr>
     <tr><td align="center">&nbsp;学号
         <input style="width:139px;" readonly="readonly" type="text" name="stNo" th:value="*{studentId}">&nbsp;姓名
@@ -19,21 +20,29 @@
         <br>&nbsp;班级&nbsp;<input style="width:139px;" readonly="readonly" type="text" name="class" th:value="*{dept}+*{nclass}">&nbsp;年级&nbsp;<input style="width:138px;" readonly="readonly" type="text" name="grade" th:value="*{grade}"></td></tr>
 
     <tr><td align="center" valign="middle">&nbsp;请假起始日期
-        <input style="width:80px;" readonly="readonly" type="text" id="datetimepicker1" class="datetimepicker" name="leaveTimeStart">
+        <input style="width:80px;" readonly="readonly" type="text" id="datetimepicker1" class="datetimepicker" name="absentTimeStart">
     </td></tr>
     <tr><td align="center" valign="middle">&nbsp;请假结束日期
-        <input style="width:80px;" readonly="readonly" type="text" id="datetimepicker2" class="datetimepicker" name="leaveTimeEnd">
+        <input style="width:80px;" readonly="readonly" type="text" id="datetimepicker2" class="datetimepicker" name="absentTimeEnd">
     </td></tr>
 
-    <tr><td align="center">&nbsp;任课教师姓名&nbsp;<input type="text" name="teacherName" style="width:250px;">
+    <tr><td align="center">&nbsp;任课教师姓名&nbsp;<input class="clean" type="text" name="teacherName" style="width:250px;">
     </td></tr>
-    <tr><td align="center">&nbsp;课程名称(全称)&nbsp;<input type="text" name="courseName" style="width:270px;">
+    <tr>
+        <td align="center">审核人
+            <select id="selectInstructor" name="selectInstructor">
+                <option th:each="instructor : *{instructorList}" th:value="${instructor.teacherId}" th:text="${instructor.teacherName}"></option>
+            </select>
+        </td>
+    </tr>
+    <tr><td align="center">&nbsp;课程名称(全称)&nbsp;<input class="clean" type="text" name="courseName" style="width:270px;">
     </td></tr>
     <tr><td align="center">
         &nbsp;请假详细事由&nbsp;<textarea name="rationale" cols="42" rows="2"></textarea></td></tr>
     <tr><td align="center">&nbsp;我已确认&nbsp;<textarea name="promise" cols="42" rows="2" disabled="disabled">本人将自行补上缺课导致的学业耽搁，并已知晓可能由于考勤不足而影响缺课课程的平时成绩。</textarea>
     </td></tr>
-    <tr><td align="center"><br><input type="submit" name="submitButton" value="请认真核对后提交离校请假备案申请"><br><br></td></tr>
+<!--    <tr><td align="center"><br><input type="submit" name="submitButton" value="请认真核对后提交离校请假备案申请"><br><br></td></tr>-->
+    <tr><td align="center"><button id="submitButton">请认真核对后提交离校请假备案申请</button></td></tr>
     </tbody></table>
 
 <!--设置日期选择框-->
@@ -55,26 +64,23 @@
 
             // 获取表格中的所有输入框的值
             var formData = {
-                studentId: $('input[name="stNo"]').val(),
-                name: $('input[name="name"]').val(),
-                class: $('input[name="class"]').val(),
-                grade: $('input[name="grade"]').val(),
-                leaveTimeStart: $('input[name="leaveTimeStart"]').val(),
-                leaveTimeEnd: $('input[name="leaveTimeEnd"]').val(),
+                absentTimeStart: $('input[name="absentTimeStart"]').val(),
+                absentTimeEnd: $('input[name="absentTimeEnd"]').val(),
                 teacherName: $('input[name="teacherName"]').val(),
                 courseName: $('input[name="courseName"]').val(),
-                rationale: $('textarea[name="rationale"]').val()
+                rationale: $('textarea[name="rationale"]').val(),
+                instructorId : $('select[name="selectInstructor"]').val()
             };
 
             // 发送POST请求
             $.ajax({
                 type: "POST",
-                url: "localhost:8080/leaveRequest",  // 替换为实际的URL
+                url: "http://localhost:8080/student/absent",  // 替换为实际的URL
                 data: JSON.stringify(formData),
                 contentType: "application/json",
                 success: function(response) {
                     // 请求成功则清空输入框
-                    $('input[type="text"], textarea').val(''); // 清空输入框
+                    $('input[class="clean"], input[class="datetimepikcer"],textarea').val(''); // 清空输入框
                     alert('提交成功');
                 },
                 error: function() {

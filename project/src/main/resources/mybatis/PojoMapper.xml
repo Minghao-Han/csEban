@@ -43,11 +43,24 @@
             left outer join teacher T on D.dept_id = T.dept_id
         where D.dept_id = #{id}
     </select>
+    <select id="queryInstructorListForDept" resultMap="TeacherResultMap">
+        select *
+        from Dept D
+            left outer join instructor I on D.dept_id = I.dept_id
+            left outer join teacher T on T.teacher_id = I.teacher_id
+        where D.dept_id = #{id}
+    </select>
     <select id="queryAbsentRequestList" resultMap="AbsentRequestResultMap">
         select *
         from request R
             left outer join absent_request A on R.request_id = A.request_id
         where R.student_id = #{studentId} and R.type = 1
+    </select>
+    <select id="queryLeaveRequestList" resultMap="LeaveRequestResultMap">
+        select *
+        from request R
+        left outer join leave_request L on R.request_id = L.request_id
+        where R.student_id = #{studentId} and R.type = 2
     </select>
     <update id="updateStudentLookNotice">
         update student_look_notice
@@ -61,6 +74,10 @@
     <insert id="addAbsentRequest" parameterType="com.AAA.csEban.pojo.AbsentRequest">
         insert into absent_request (request_id, starttime, endtime, course_name) values
         (#{requestId},#{startTime}, #{endTime}, #{courseName})
+    </insert>
+    <insert id="addLeaveRequest" parameterType="com.AAA.csEban.pojo.LeaveRequest">
+        insert into leave_request (request_id, leaveTime, returnTime, destination) values
+        (#{requestId},#{leaveTime}, #{returnTime}, #{destination})
     </insert>
 
     <resultMap id="StudentResultMap" type="com.AAA.csEban.pojo.Student">
@@ -103,9 +120,20 @@
         <result property="type" column="type" typeHandler="com.AAA.csEban.mapper.RequestTypeHandle"/>
         <association property="teacher" column="teacher_id" select="selectTeacherById"/>
         <association property="student" column="student_id" select="queryStudentById"/>
-
     </resultMap>
-    
+    <resultMap id="LeaveRequestResultMap" type="com.AAA.csEban.pojo.LeaveRequest">
+        <id property="requestId" column="request_id"/>
+        <result property="leaveTime" column="leaveTime"/>
+        <result property="returnTime" column="returnTime"/>
+        <result property="destination" column="destination"/>
+        <!-- Request的ResultMap -->
+        <result property="information" column="information"/>
+        <result property="isAgree" column="is_agree"/>
+        <result property="refuseInformation" column="refuse_information"/>
+        <result property="type" column="type" typeHandler="com.AAA.csEban.mapper.RequestTypeHandle"/>
+        <association property="teacher" column="teacher_id" select="selectTeacherById"/>
+        <association property="student" column="student_id" select="queryStudentById"/>
+    </resultMap>
 <!--    <resultMap id="LeaveRequestResultMap" type="com.AAA.csEban.pojo.LeaveRequest">
         <id property="requestId" column="request_id"/>
         <result property="leaveTime" column="leaveTime"/>

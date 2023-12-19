@@ -12,7 +12,11 @@ public interface PojoMapper {
 
      List<Teacher> queryTeacherListForDept(int id);
 
+     List<Teacher> queryInstructorListForDept(int id);
+
      List<AbsentRequest> queryAbsentRequestList(int studentId);
+
+     List<LeaveRequest> queryLeaveRequestList(int studentId);
 
      Student queryStudentById(int id);
 
@@ -34,6 +38,8 @@ public interface PojoMapper {
      void updateStudentLookNotice(int noticeId, int studentId);
 
      void addAbsentRequest(AbsentRequest absentRequest);
+
+     void addLeaveRequest(LeaveRequest leaveRequest);
 
      void addRequest(Request request);
 
