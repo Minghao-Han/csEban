@@ -77,7 +77,6 @@ public class AbsentRequestController {
     }
     @GetMapping("/history")
     public String getAbsentRequestHistory(@UserId Integer stuId,Model model){
-        stuId=34;
         List<AbsentRequest> absentRequestList = studentService.getAbsentRequestList(stuId);
         List<RequestHistoryForm> absentRequestHistory = new ArrayList<>();
         for (AbsentRequest aR:absentRequestList) {

@@ -4,6 +4,7 @@ import com.AAA.csEban.Utils.Msg;
 import com.AAA.csEban.Utils.DateUtils;
 import com.AAA.csEban.Utils.UserId;
 import com.AAA.csEban.formObjs.RequestForm;
+import com.AAA.csEban.formObjs.RequestHistoryForm;
 import com.AAA.csEban.pojo.*;
 import com.AAA.csEban.service.RequestService;
 import com.AAA.csEban.service.StudentService;
@@ -14,6 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @RequestMapping("/student/leave")
@@ -75,5 +78,15 @@ public class LeaveRequestController {
         System.out.println(leaveRequest);
         requestService.addLeaveRequest(leaveRequest);
         return "ok";
+    }
+    @GetMapping("/history")
+    public String getLeaveRequestHistory(@UserId Integer stuId,Model model){
+        List<LeaveRequest> leaveRequestList = requestService.selectLeaveRequestByStuId(stuId);
+        List<RequestHistoryForm> leaveRequestHistory = new ArrayList<>();
+        for (LeaveRequest lr:leaveRequestList) {
+            leaveRequestHistory.add(new RequestHistoryForm(lr));
+        }
+        model.addAttribute("leaveRequestHistory",leaveRequestHistory);
+        return "studentPages/leaveRequestHistory";
     }
 }

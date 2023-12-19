@@ -35,14 +35,12 @@ public class StudentServiceImpl implements StudentService {
         return noticeList;
     }
 
-
-
     @Override
-    public Notice lookNotice(int noticeId,int studentId) {
-        pojoMapper.updateStudentLookNotice(noticeId, studentId);
-        Notice notice = pojoMapper.queryNoticeById(noticeId);
-        return notice;
+    public Notice lookNotice(int studentId, int NoticeId) {
+        pojoMapper.updateStudentLookNotice(NoticeId, studentId);
+        return pojoMapper.queryNoticeById(NoticeId);
     }
+
 
     @Override
     public void submitAbsentRequest(AbsentRequest absentRequest) {
