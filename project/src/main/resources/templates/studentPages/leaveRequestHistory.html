@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>CS易办：让事更容易办</title>
+    <link rel="stylesheet" href="/static/css/headerStyle.css">
+    <link rel="stylesheet" href="/static/css/requestHistoryStyle.css" />
+</head>
+<body>
+<div th:replace="~{fragments/header::header}"></div>
+<div class="request-history-container">
+    <h2>离校申请历史</h2>
+    <table>
+        <tr>
+            <th>申请号</th>
+            <th>审批人</th>
+            <th>缺课理由</th>
+            <th>时间（起）</th>
+            <th>时间（终）</th>
+            <th>状态</th>
+            <th>拒绝理由</th>
+            <th>目的地</th>
+        </tr>
+        <tr th:each="request : ${leaveRequestHistory}" th:object="${request}">
+            <td th:text="*{requestId}"></td>
+            <td th:text="*{instructorName}"></td>
+            <td th:text="*{information}"></td>
+            <td th:text="*{startTime}"></td>
+            <td th:text="*{endTime}"></td>
+            <td>
+                <span th:if="*{isAgree} == -1" class="reviewing">正在审核</span>
+                <span th:if="*{isAgree} == 0" class="rejected">拒绝</span>
+                <span th:if="*{isAgree} == 1" class="approved">通过</span>
+            </td>
+            <td th:text="*{refuseInformation}"></td>
+            <td th:text="*{destination}"></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

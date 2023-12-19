@@ -14,7 +14,6 @@
 <div th:replace="~{fragments/header::header}"></div>
 <table border="1" style="border-collapse:collapse;" width="450" th:object="${leaveRequestForm}">
     <tbody><tr><td align="center"><strong><font color="red"><br>计算机学院本科生离校请假备案表</font></strong><br>(请逐项认真填写，否则返工很麻烦的哦)<br><br></td></tr>
-    <input type="hidden" name="ifliuxiao" value="离校">
     <tr><td align="center">&nbsp;学号
         <input style="width:139px;" readonly="readonly" type="text" name="stNo" th:value="*{studentId}">&nbsp;姓名
         <input style="width:138px;" readonly="readonly" type="text" name="name" th:value="*{name}">
@@ -27,12 +26,10 @@
             </select>
         </td>
     </tr>
-    <tr><td align="center">&nbsp;事由类别&nbsp;<select name="rationale" style="width:302px;">
-
-        <option value="图书馆通宵自习" select="selected">图书馆通宵自习</option>
-        <option value="">请如实选择</option>
+    <tr><td align="center">&nbsp;事由类别&nbsp;<select name="rationale" style="width:302px;" value="请如实选择">
+        <option value="" select="selected">请如实选择</option>
+        <option value="图书馆通宵自习" >图书馆通宵自习</option>
         <option value="放假提前回家">放假提前回家</option>
-        <option value="图书馆通宵自习">图书馆通宵自习</option>
         <option value="单位外派">单位外派</option>
         <option value="老师外派">老师外派</option>
         <option value="回家探亲">回家探亲</option>
@@ -58,23 +55,19 @@
 
 
 
-        <br>&nbsp;详细事由&nbsp;<input type="text" name="RationaleElaboration" style="width:298px;"></td></tr>
+        <br>&nbsp;详细事由&nbsp;<input type="text" name="rationaleElaboration" style="width:298px;" class="clean"></td></tr>
     <tr><td align="center">&nbsp;计划离校时刻
         <input style="width:266px;" readonly="readonly" type="text" id="datetimepicker1" class="datetimepicker" name="leaveTime">
         <br>&nbsp;计划返校时刻
         <input style="width:266px;" readonly="readonly" type="text" id="datetimepicker2" class="datetimepicker" name="returnTime">
 
     </td></tr>
-    <input name="province" type="hidden" value="湖北省"><input name="city" type="hidden" value="武汉市">
-    <tr><td align="center">&nbsp;去往详细地点&nbsp;<input type="text" name="destination" style="width:266px;">
+    <tr><td align="center">&nbsp;去往详细地点&nbsp;<input class="clean" type="text" name="destination" style="width:266px;">
     </td></tr>
 
 
     <tr><td><font color="red"><strong>【本人确认】<br>&nbsp;&nbsp;&nbsp;&nbsp;1.我已告知家长我的离校计划，并征得家长同意；<br>&nbsp;&nbsp;&nbsp;&nbsp;2.本人已完成教学计划安排的任务或者愿意承担并会在返校后积极补回由于请假引起的学业耽误；<br>&nbsp;&nbsp;&nbsp;&nbsp;3.外出期间的食宿等问题自己已协调好；<br>&nbsp;&nbsp;&nbsp;&nbsp;4.辅导员已经对我进行了相关安全教育；<br>&nbsp;&nbsp;&nbsp;&nbsp;5.请假期间的自身安全由我本人负责；<br>&nbsp;&nbsp;&nbsp;&nbsp;6.我和家长都已知晓2002年8月颁布的教育部令第12号《学生伤害事故处理办法》的相关规定,（详见《学生手册》）。</strong></font> </td></tr>
-    <tr><td align="center"><br><input type="submit" name="submitButton" value="我已核对并确认以上信息，提交离校请假备案申请"><br><br></td></tr>
-
-
-
+    <tr><td align="center"><br><button id="submitButton">我已核对并确认以上信息，提交离校请假备案申请</button><br><br></td></tr>
     </tbody></table>
 
 <!--设置日期选择框-->
@@ -96,27 +89,23 @@
 
             // 获取表格中的所有输入框的值
             var formData = {
-                studentId: $('input[name="stNo"]').val(),
-                name: $('input[name="name"]').val(),
-                class: $('input[name="class"]').val(),
-                grade: $('input[name="grade"]').val(),
-                leaveTimeStart: $('input[name="leaveTimeStart"]').val(),
-                leaveTimeEnd: $('input[name="leaveTimeEnd"]').val(),
-                teacherName: $('input[name="teacherName"]').val(),
-                courseName: $('input[name="courseName"]').val(),
-                rationale: $('textarea[name="rationale"]').val(),
-                instructorId : $('select[name="selectInstructor"]').val()
+                leaveTime: $('input[name="leaveTime"]').val(),
+                returnTime: $('input[name="returnTime"]').val(),
+                destination: $('input[name="destination"]').val(),
+                rationaleElaboration: $('input[name="rationaleElaboration"]').val(),
+                instructorId : $('select[name="selectInstructor"]').val(),
+                rationale : $('select[name="rationale"]').val()
             };
 
             // 发送POST请求
             $.ajax({
                 type: "POST",
-                url: "http://localhost:8080/student/absent",  // 替换为实际的URL
+                url: "http://localhost:8080/student/leave",
                 data: JSON.stringify(formData),
                 contentType: "application/json",
                 success: function(response) {
                     // 请求成功则清空输入框
-                    $('input[type="text"], textarea').val(''); // 清空输入框
+                    $('input[class="clean"],input[class="datetimepicker"],textarea').val(''); // 清空输入框
                     alert('提交成功');
                 },
                 error: function() {
