@@ -24,14 +24,13 @@
     <select id="queryNoticeById" resultMap="NoticeResultMap">
         select *
         from notice N
-            left outer join teacher T on N.teacher_id = T.teacher_id
         where N.notice_id = #{id}
     </select>
 
     <select id="queryNoticeListForTeacher" resultMap="NoticeResultMap">
         select *
         from teacher T
-            left outer join notice N on N.teacher_id = T.teacher_id
+            inner join notice N on N.teacher_id = T.teacher_id
         where T.teacher_id = #{id}
     </select>
     <select id="selectTeacherById" resultMap="TeacherResultMap">

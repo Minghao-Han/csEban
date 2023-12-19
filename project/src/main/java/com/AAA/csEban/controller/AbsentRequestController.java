@@ -71,7 +71,7 @@ public class AbsentRequestController {
         absentRequest.setTeacher(instructor);
         absentRequest.setStartTime(startTime);
         absentRequest.setEndTime(endTime);
-        absentRequest.setType(RequeseType.E_AbsentRequest_Type);
+        absentRequest.setType(RequestType.E_AbsentRequest_Type);
         requestService.addAbsentRequest(absentRequest);
         return "ok";
     }
