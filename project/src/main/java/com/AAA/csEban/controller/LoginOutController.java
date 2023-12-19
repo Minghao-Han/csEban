@@ -29,6 +29,7 @@ public class LoginOutController {
         try{
             userId = Integer.parseInt(loginUser.getUsername());
         }catch (Exception e){
+            model.addAttribute("verifyFailed",true);
             return "loginPage";
         }
         if (userId!=null && loginService.verifyAccount(userId, loginUser.getPassword(),loginUser.getRole())){

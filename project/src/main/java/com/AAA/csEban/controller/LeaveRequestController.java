@@ -80,14 +80,13 @@ public class LeaveRequestController {
         return "ok";
     }
     @GetMapping("/history")
-    public String getAbsentRequestHistory(@UserId Integer stuId,Model model){
-        stuId=34;
-        List<AbsentRequest> absentRequestList = studentService.getAbsentRequestList(stuId);
-        List<RequestCheckForm> absentRequestHistory = new ArrayList<>();
-        for (AbsentRequest aR:absentRequestList) {
-            absentRequestHistory.add(new RequestCheckForm(aR));
+    public String getLeaveRequestHistory(@UserId Integer stuId,Model model){
+        List<LeaveRequest> leaveRequestList = requestService.selectLeaveRequestByStuId(stuId);
+        List<RequestCheckForm> leaveRequestHistory = new ArrayList<>();
+        for (LeaveRequest lr:leaveRequestList) {
+            leaveRequestHistory.add(new RequestCheckForm(lr));
         }
-        model.addAttribute("absentRequestHistory",absentRequestHistory);
-        return "studentPages/absentRequestHistory";
+        model.addAttribute("leaveRequestHistory",leaveRequestHistory);
+        return "studentPages/leaveRequestHistory";
     }
 }
