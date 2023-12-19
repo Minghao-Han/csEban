@@ -1,6 +1,7 @@
 package com.AAA.csEban.service.impl;
 
 import com.AAA.csEban.mapper.TeacherMapper;
+import com.AAA.csEban.pojo.AbsentRequest;
 import com.AAA.csEban.pojo.Request;
 import com.AAA.csEban.pojo.Teacher;
 import com.AAA.csEban.service.TeacherService;

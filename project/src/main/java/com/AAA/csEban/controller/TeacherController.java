@@ -1,27 +1,45 @@
 package com.AAA.csEban.controller;
 
+import com.AAA.csEban.Utils.UserId;
+import com.AAA.csEban.formObjs.RequestForm;
+import com.AAA.csEban.formObjs.RequestCheckForm;
+import com.AAA.csEban.mapper.PojoMapper;
 import com.AAA.csEban.pojo.Request;
+import com.AAA.csEban.pojo.Teacher;
 import com.AAA.csEban.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-@RestController
+@Controller
+@RequestMapping("/teacher")
 public class TeacherController {
 
     @Autowired
     private TeacherService teacherService;
+    @Autowired
+    private PojoMapper pojoMapper;
 
-    @GetMapping("/teacher/searchById")
-    public String searchTeacher(int id){
+    @GetMapping("/searchById")
+    public String searchTeacher(@UserId int id){
         return teacherService.selectById(id).toString();
     }
+    @GetMapping("/info")
+    public String getPersonalInfo(@UserId int teacherId,Model model){
+        Teacher teacher = teacherService.selectById(teacherId);
+        model.addAttribute("teacherInfo",teacher);
+        String deptName = pojoMapper.queryDeptById(teacher.getDeptId()).getName();
+        model.addAttribute("deptName",deptName);
+        return "teacherPages/teacherInfo";
+    }
 
-    @PostMapping("/teacher/launch")
-    public void launchNotice(int id,String content,String grade){
+    @PostMapping("/launch")
+    public void launchNotice(@UserId int id,String content,String grade){
         teacherService.launchNotice(id,content);
         int num = teacherService.searchNoticeNum();
         List<Integer> list = teacherService.searchStudentByGrade(grade);
@@ -29,16 +47,47 @@ public class TeacherController {
             teacherService.noticeToStudent(num,sid);
         }
     }
-    @GetMapping("teacher/getAbsentRequest")
-    public List<Request> getAbsentRequestById(int teacherId){
-        return teacherService.getAbsentRequestById(teacherId);
+    @GetMapping("/absentRequest")
+    public String getAbsentRequestById(@UserId int teacherId, Model model){
+        List<Request> requests = teacherService.getAbsentRequestById(teacherId);
+        List<RequestCheckForm> absentRequests = new ArrayList<>();
+        for (Request request :
+                requests) {
+            absentRequests.add(new RequestForm(re));
+        }
+        model.addAttribute("absentRequests",absentRequests);
+        return "teacherPages/absentRequest";
     }
-    @PostMapping("/teacher/agree")
-    public void agree(int id){
+    @PutMapping("/request/approve")
+    @ResponseBody
+    public String approve(@RequestBody Map<String,Object> requestBody){
+        Integer id = null;
+        try {
+            id = (Integer) requestBody.get("requestId");
+        }catch (Exception e) {
+            return "failed "+e.toString();
+        }
+        if (id == null) {
+            return "failed, id is required.";
+        }
         teacherService.agreeRequestById(id);
+        return "ok";
     }
-    @PostMapping("/teacher/disagree")
-    public void disagree(int id,String str){
+    @PutMapping("/request/reject")
+    @ResponseBody
+    public String reject(@RequestBody Map<String,Object> requestBody){
+        Integer id = null;
+        String str = null;
+        try {
+            id = (Integer) requestBody.get("requestId");
+            str = (String) requestBody.get("refuseInformation");
+        }catch (Exception e) {
+            return "failed "+e.toString();
+        }
+        if (id == null || str == null) {
+            return "failed, id and refuseInformation are required.";
+        }
         teacherService.disagreeRequestById(id,str);
+        return "ok";
     }
 }

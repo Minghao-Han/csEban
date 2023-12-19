@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RequestHistoryForm {
+public class RequestCheckForm {
     private int requestId;
     private int studentId;
     private String studentName;
@@ -26,7 +26,7 @@ public class RequestHistoryForm {
     private String destination;
     private String courseName;
 
-    public RequestHistoryForm(Request request) {
+    public RequestCheckForm(Request request) {
         this.requestId = request.getRequestId();
         this.studentId = request.getStudent().getStudentId();
         this.studentName = request.getStudent().getName();

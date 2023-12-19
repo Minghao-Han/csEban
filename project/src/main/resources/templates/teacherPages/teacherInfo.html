@@ -13,10 +13,10 @@
     <h1>个人信息</h1>
     <div class="info" th:object="${teacherInfo}">
         <div class="info-item">
-            <strong>编号:</strong> <span th:text="*{studentId}"></span>
+            <strong>编号:</strong> <span th:text="*{teacher_id}"></span>
         </div>
         <div class="info-item">
-            <strong>学院:</strong> <span th:text="*{dept.name}"></span>
+            <strong>学院:</strong> <span th:text="${deptName}"></span>
         </div>
         <div class="info-item">
             <strong>姓名:</strong> <span th:text="*{name}"></span>

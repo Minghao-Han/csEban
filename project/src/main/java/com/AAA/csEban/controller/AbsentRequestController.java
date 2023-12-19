@@ -4,7 +4,7 @@ import com.AAA.csEban.Utils.Msg;
 import com.AAA.csEban.Utils.DateUtils;
 import com.AAA.csEban.Utils.UserId;
 import com.AAA.csEban.formObjs.RequestForm;
-import com.AAA.csEban.formObjs.RequestHistoryForm;
+import com.AAA.csEban.formObjs.RequestCheckForm;
 import com.AAA.csEban.pojo.AbsentRequest;
 import com.AAA.csEban.pojo.RequestType;
 import com.AAA.csEban.pojo.Student;
@@ -71,7 +71,7 @@ public class AbsentRequestController {
         absentRequest.setTeacher(instructor);
         absentRequest.setStartTime(startTime);
         absentRequest.setEndTime(endTime);
-        absentRequest.setType(RequeseType.E_AbsentRequest_Type);
+        absentRequest.setType(RequestType.E_AbsentRequest_Type);
         requestService.addAbsentRequest(absentRequest);
         return "ok";
     }
@@ -79,9 +79,9 @@ public class AbsentRequestController {
     public String getAbsentRequestHistory(@UserId Integer stuId,Model model){
         stuId=34;
         List<AbsentRequest> absentRequestList = studentService.getAbsentRequestList(stuId);
-        List<RequestHistoryForm> absentRequestHistory = new ArrayList<>();
+        List<RequestCheckForm> absentRequestHistory = new ArrayList<>();
         for (AbsentRequest aR:absentRequestList) {
-            absentRequestHistory.add(new RequestHistoryForm(aR));
+            absentRequestHistory.add(new RequestCheckForm(aR));
         }
         model.addAttribute("absentRequestHistory",absentRequestHistory);
         return "studentPages/absentRequestHistory";

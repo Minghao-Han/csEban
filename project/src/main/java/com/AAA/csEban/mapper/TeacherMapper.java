@@ -1,5 +1,6 @@
 package com.AAA.csEban.mapper;
 
+import com.AAA.csEban.pojo.AbsentRequest;
 import com.AAA.csEban.pojo.Request;
 import com.AAA.csEban.pojo.Teacher;
 import org.apache.ibatis.annotations.Mapper;

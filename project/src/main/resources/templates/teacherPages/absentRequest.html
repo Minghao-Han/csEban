@@ -13,11 +13,10 @@
                 var requestId = $(this).closest('tr').find('#requestId').text();
                 var data = {
                     "requestId": requestId,
-                    "isAgree": 1
                 };
                 $.ajax({
                     type: "PUT",
-                    url: "http://localhost:8080/teacher/request",
+                    url: "http://localhost:8080/teacher/request/approve",
                     data: JSON.stringify(data),
                     contentType: "application/json",
                     success: function() {
@@ -29,13 +28,18 @@
             // 拒绝按钮点击事件
             $(document).on('click', '.rejectBtn', function() {
                 var requestId = $(this).closest('tr').find('#requestId').text();
+                var refuseInformation = $(this).closest('tr').find('#refuseInformation').text();
+                if (refuseInformation.trim() === ''){
+                    alert('请填写拒绝理由');
+                    return;
+                }
                 var data = {
                     "requestId": requestId,
-                    "isAgree": 0
+                    "refuseInformation": refuseInformation,
                 };
                 $.ajax({
                     type: "PUT",
-                    url: "http://localhost:8080/teacher/request",
+                    url: "http://localhost:8080/teacher/request/reject",
                     data: JSON.stringify(data),
                     contentType: "application/json",
                     success: function() {
@@ -63,7 +67,7 @@
             <th>拒绝理由</th>
             <th>课程名</th>
         </tr>
-        <tr th:each="request : ${absentRequest}" th:object="${request}">
+        <tr th:each="absentRequest : ${absentRequests}" th:object="${absentRequest}">
             <td th:text="*{requestId}" id="requestId"></td>
             <td th:text="*{studentId}"></td>
             <td th:text="*{studentName}"></td>
@@ -78,6 +82,7 @@
                 <span th:if="*{isAgree} == 0" class="rejected">已拒绝</span>
             </td>
             <td><input type="text"></td>
+            <td th:text="*{refuseInformation}" id="refuseInformation"></td>
             <td th:text="*{courseName}"></td>
         </tr>
     </table>

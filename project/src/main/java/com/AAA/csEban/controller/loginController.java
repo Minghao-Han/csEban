@@ -5,6 +5,7 @@ import com.AAA.csEban.formObjs.LoginUser;
 import com.AAA.csEban.pojo.Student;
 import com.AAA.csEban.service.LoginService;
 import com.AAA.csEban.service.StudentService;
+import com.AAA.csEban.service.TeacherService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,8 @@ public class loginController {
     private LoginService loginService;
     @Autowired
     private StudentService studentService;
+    @Autowired
+    private TeacherService teacherService;
 
     @PostMapping("/login")
     public String login(@ModelAttribute LoginUser loginUser, Model model, HttpSession session){
@@ -29,11 +32,14 @@ public class loginController {
         }catch (Exception e){
             return "loginPage";
         }
-        if (userId!=null && loginService.verifyAccount(userId, loginUser.getPassword())){
+        if (userId!=null && loginService.verifyAccount(userId, loginUser.getPassword(),loginUser.getRole())){
             String jwt = JwtUtils.generateJwt(userId,loginUser.getRole());
             session.setAttribute("jwt",jwt);
             switch (loginUser.getRole()){
-                case "teacher": return "teacherPages/teacherHome";
+                case "teacher":
+                    model.addAttribute("loginUser",loginUser);
+                    model.addAttribute("name",teacherService.selectById(userId).getTeacherName());
+                    return "teacherPages/teacherHome";
                 case "student":
                     model.addAttribute("loginUser",loginUser);
                     model.addAttribute("name",studentService.getStudentInfo(userId).getName());
