@@ -33,6 +33,7 @@
                 </td>
                 <td><button type="submit" th:id="login_button" disabled>登录</button></td>
             </tr>
+            <span th:if="${verifyFailed}" style="color: red">账号、密码或身份错误</span>
         </table>
     </form>
 </div>

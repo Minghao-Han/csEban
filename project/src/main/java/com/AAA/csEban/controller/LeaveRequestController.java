@@ -3,6 +3,7 @@ package com.AAA.csEban.controller;
 import com.AAA.csEban.Utils.Msg;
 import com.AAA.csEban.Utils.DateUtils;
 import com.AAA.csEban.Utils.UserId;
+import com.AAA.csEban.formObjs.RequestCheckForm;
 import com.AAA.csEban.formObjs.RequestForm;
 import com.AAA.csEban.pojo.*;
 import com.AAA.csEban.service.RequestService;
@@ -14,6 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @RequestMapping("/student/leave")
@@ -75,5 +78,16 @@ public class LeaveRequestController {
         System.out.println(leaveRequest);
         requestService.addLeaveRequest(leaveRequest);
         return "ok";
+    }
+    @GetMapping("/history")
+    public String getAbsentRequestHistory(@UserId Integer stuId,Model model){
+        stuId=34;
+        List<AbsentRequest> absentRequestList = studentService.getAbsentRequestList(stuId);
+        List<RequestCheckForm> absentRequestHistory = new ArrayList<>();
+        for (AbsentRequest aR:absentRequestList) {
+            absentRequestHistory.add(new RequestCheckForm(aR));
+        }
+        model.addAttribute("absentRequestHistory",absentRequestHistory);
+        return "studentPages/absentRequestHistory";
     }
 }

@@ -2,7 +2,6 @@ package com.AAA.csEban.controller;
 
 import com.AAA.csEban.Utils.JwtUtils;
 import com.AAA.csEban.formObjs.LoginUser;
-import com.AAA.csEban.pojo.Student;
 import com.AAA.csEban.service.LoginService;
 import com.AAA.csEban.service.StudentService;
 import com.AAA.csEban.service.TeacherService;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
-public class loginController {
+public class LoginOutController {
     @Autowired
     private LoginService loginService;
     @Autowired
@@ -49,6 +48,7 @@ public class loginController {
                     return "error";
             }
         }else {
+            model.addAttribute("verifyFailed",true);
             return "loginPage";
         }
     }
@@ -57,5 +57,9 @@ public class loginController {
         model.addAttribute("loginUser",new LoginUser());
         return "loginPage";
     }
-
+    @GetMapping("/logout")
+    public String logout(HttpSession session,Model model){
+        session.removeAttribute("jwt");
+        return "redirect:/";
+    }
 }

@@ -34,6 +34,7 @@ public class RequestCheckForm {
         this.information = request.getInformation();
         this.isAgree = request.getIsAgree();
         this.refuseInformation = request.getRefuseInformation();
+        if (request.getType()==null) return;
         if (request.getType().equals(RequestType.E_AbsentRequest_Type)){
             AbsentRequest absentRequest = (AbsentRequest) request;
             this.startTime = DateUtils.LocalDateTime2String(absentRequest.getStartTime());

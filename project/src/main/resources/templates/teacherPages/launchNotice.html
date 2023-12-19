@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>CS易办：让事更容易办</title>
+    <link rel="stylesheet" href="/static/css/headerStyle.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#launchNotice').click(function(){
+                var data = {
+                    "content": $('input[id="content"]').val(),
+                    "grade": $('input[id="grade"]').val(),
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:8080/teacher/launch",  // 替换为实际的URL
+                    data: JSON.stringify(data),
+                    contentType: "application/json",
+                    success: function(response) {
+                        // 请求成功则清空输入框
+                        $('input[class="clean"]').val(''); // 清空输入框
+                        alert('发布成功');
+                    },
+                    error: function() {
+                        // 请求失败则提示失败
+                        alert('发布失败');
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<div th:replace="~{fragments/teacherHeader::header}"></div>
+<div>
+    <table>
+        <tr>
+            <th>通知内容</th>
+            <th>通知年级</th>
+        </tr>
+        <tr>
+            <td><input id="content" class="clean"></td>
+            <td><input id="grade" class="clean"></td>
+        </tr>
+    </table>
+    <button id="launchNotice">发布通知</button>
+</div>
+</body>
+</html>

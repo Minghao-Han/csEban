@@ -1,4 +1,107 @@
 <!DOCTYPE html>
 <html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>CS易办：让事更容易办</title>
+    <link rel="stylesheet" href="/static/css/headerStyle.css">
+    <link rel="stylesheet" href="/static/css/requestHistoryStyle.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // 通过按钮点击事件
+            $('.approveBtn').click(function() {
+                var button = $(this);
+                var requestId = $(this).closest('tr').find('.requestId').text();
+                var data = {
+                    "requestId": requestId,
+                };
+                $.ajax({
+                    type: "PUT",
+                    url: "http://localhost:8080/teacher/request/approve",
+                    data: JSON.stringify(data),
+                    contentType: "application/json",
+                    success: function(response) {
+                        alert('已通过');
+                        button.closest('td').html('<span class="approved">已通过</span>');
+                        button.closest('tr').find('.refuseInformationTd').html('');
+                    },
+                    error: function() {
+                        // 请求失败则提示失败
+                        alert('提交失败');
+                    }
+                });
+            });
 
+            // 拒绝按钮点击事件
+            $('.rejectBtn').click(function() {
+                var button = $(this);
+                var requestId = $(this).closest('tr').find('.requestId').text();
+                var refuseInformation = $(this).closest('tr').find('.refuseInformation').val();
+                if (refuseInformation.trim() === ''){
+                    alert('请填写拒绝理由');
+                    return;
+                }
+                var data = {
+                    "requestId": requestId,
+                    "refuseInformation": refuseInformation,
+                };
+                $.ajax({
+                    type: "PUT",
+                    url: "http://localhost:8080/teacher/request/reject",
+                    data: JSON.stringify(data),
+                    contentType: "application/json",
+                    success: function(response) {
+                        alert('已拒绝');
+                        button.closest('td').html('<span class="rejected">已拒绝</span>');
+                    },
+                    error: function() {
+                        // 请求失败则提示失败
+                        alert('提交失败');
+                    }
+
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<div th:replace="~{fragments/teacherHeader::header}"></div>
+<div class="request-history-container">
+    <h2>缺课请假申请</h2>
+    <table>
+        <tr>
+            <th>申请号</th>
+            <th>申请人</th>
+            <th>学号</th>
+            <th>审批人</th>
+            <th>离校理由</th>
+            <th>时间（起）</th>
+            <th>时间（终）</th>
+            <th>状态</th>
+            <th>拒绝理由</th>
+            <th>去往地点</th>
+        </tr>
+        <tr th:each="leaveRequest : ${leaveRequests}" th:object="${leaveRequest}">
+            <td th:text="*{requestId}" class="requestId"></td>
+            <td th:text="*{studentId}"></td>
+            <td th:text="*{studentName}"></td>
+            <td th:text="*{instructorName}"></td>
+            <td th:text="*{information}"></td>
+            <td th:text="*{startTime}"></td>
+            <td th:text="*{endTime}"></td>
+            <td>
+                <button th:if="*{isAgree} == -1" class="approveBtn" style="color: green">通过</button>
+                <span th:if="*{isAgree} == 1" class="approved">已通过</span>
+                <button th:if="*{isAgree} == -1" class="rejectBtn"  style="color: red">拒绝</button>
+                <span th:if="*{isAgree} == 0" class="rejected" >已拒绝</span>
+            </td>
+            <td>
+                <input th:if="${leaveRequest.refuseInformation == null && leaveRequest.isAgree == -1}" type="text" class="refuseInformation">
+                <span th:if="*{refuseInformation}" th:text="*{refuseInformation}"></span>
+            </td>
+            <td th:text="*{destination}"></td>
+        </tr>
+    </table>
+</div>
+</body>
 </html>

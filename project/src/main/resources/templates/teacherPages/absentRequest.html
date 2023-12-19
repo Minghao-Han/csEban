@@ -9,8 +9,9 @@
     <script>
         $(document).ready(function() {
             // 通过按钮点击事件
-            $(document).on('click', '.approveBtn', function() {
-                var requestId = $(this).closest('tr').find('#requestId').text();
+            $('.approveBtn').click(function() {
+                var button = $(this);
+                var requestId = $(this).closest('tr').find('.requestId').text();
                 var data = {
                     "requestId": requestId,
                 };
@@ -19,16 +20,23 @@
                     url: "http://localhost:8080/teacher/request/approve",
                     data: JSON.stringify(data),
                     contentType: "application/json",
-                    success: function() {
-                        $(this).closest('td').html('<span class="approved">已通过</span>');
+                    success: function(response) {
+                        alert('已通过');
+                        button.closest('td').html('<span class="approved">已通过</span>');
+                        button.closest('tr').find('.refuseInformationTd').html('');
+                    },
+                    error: function() {
+                        // 请求失败则提示失败
+                        alert('提交失败');
                     }
                 });
             });
 
             // 拒绝按钮点击事件
-            $(document).on('click', '.rejectBtn', function() {
-                var requestId = $(this).closest('tr').find('#requestId').text();
-                var refuseInformation = $(this).closest('tr').find('#refuseInformation').text();
+            $('.rejectBtn').click(function() {
+                var button = $(this);
+                var requestId = $(this).closest('tr').find('.requestId').text();
+                var refuseInformation = $(this).closest('tr').find('.refuseInformation').val();
                 if (refuseInformation.trim() === ''){
                     alert('请填写拒绝理由');
                     return;
@@ -42,9 +50,16 @@
                     url: "http://localhost:8080/teacher/request/reject",
                     data: JSON.stringify(data),
                     contentType: "application/json",
-                    success: function() {
-                        $(this).closest('td').html('<span class="rejected">已拒绝</span>');
+                    success: function(response) {
+                        alert('已拒绝');
+                        button.closest('td').html('<span class="rejected">已拒绝</span>');
+                        button.closest('tr').find('.refuseInformationTd').html('<span>'+refuseInformation+'</span>');
+                    },
+                    error: function() {
+                        // 请求失败则提示失败
+                        alert('提交失败');
                     }
+
                 });
             });
         });
@@ -68,7 +83,7 @@
             <th>课程名</th>
         </tr>
         <tr th:each="absentRequest : ${absentRequests}" th:object="${absentRequest}">
-            <td th:text="*{requestId}" id="requestId"></td>
+            <td th:text="*{requestId}" class="requestId"></td>
             <td th:text="*{studentId}"></td>
             <td th:text="*{studentName}"></td>
             <td th:text="*{instructorName}"></td>
@@ -76,13 +91,15 @@
             <td th:text="*{startTime}"></td>
             <td th:text="*{endTime}"></td>
             <td>
-                <button th:if="*{isAgree} == -1" class="approveBtn">通过</button>
+                <button th:if="*{isAgree} == -1" class="approveBtn" style="color: green">通过</button>
                 <span th:if="*{isAgree} == 1" class="approved">已通过</span>
-                <button th:if="*{isAgree} == -1" class="rejectBtn">拒绝</button>
-                <span th:if="*{isAgree} == 0" class="rejected">已拒绝</span>
+                <button th:if="*{isAgree} == -1" class="rejectBtn"  style="color: red">拒绝</button>
+                <span th:if="*{isAgree} == 0" class="rejected" >已拒绝</span>
             </td>
-            <td><input type="text"></td>
-            <td th:text="*{refuseInformation}" id="refuseInformation"></td>
+            <td class="refuseInformationTd">
+                <input th:if="${absentRequest.refuseInformation == null && absentRequest.isAgree == -1}" type="text" class="refuseInformation">
+                <span th:if="*{refuseInformation}" th:text="*{refuseInformation}"></span>
+            </td>
             <td th:text="*{courseName}"></td>
         </tr>
     </table>

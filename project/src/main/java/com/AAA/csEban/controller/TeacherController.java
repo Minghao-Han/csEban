@@ -38,8 +38,18 @@ public class TeacherController {
         return "teacherPages/teacherInfo";
     }
 
+    @GetMapping("/launch")
+    public String getNoticeLaunchPage(){
+        return "teacherPages/launchNotice";
+    }
     @PostMapping("/launch")
-    public void launchNotice(@UserId int id,String content,String grade){
+    @ResponseBody
+    public void launchNotice(@UserId int id,@RequestBody Map<String,String> requestBody){
+        String content = requestBody.get("content");
+        String grade = requestBody.get("grade");
+        if (content==null || grade==null) {
+            throw new RuntimeException("content and grade are required when launch a notice");
+        }
         teacherService.launchNotice(id,content);
         int num = teacherService.searchNoticeNum();
         List<Integer> list = teacherService.searchStudentByGrade(grade);
@@ -53,19 +63,32 @@ public class TeacherController {
         List<RequestCheckForm> absentRequests = new ArrayList<>();
         for (Request request :
                 requests) {
-            absentRequests.add(new RequestForm(re));
+            absentRequests.add(new RequestCheckForm(request));
         }
         model.addAttribute("absentRequests",absentRequests);
         return "teacherPages/absentRequest";
     }
+
+    @GetMapping("/leaveRequest")
+    public String getLeaveRequestById(@UserId int teacherId, Model model){
+        List<Request> requests = teacherService.getLeaveRequestById(teacherId);
+        List<RequestCheckForm> leaveRequests = new ArrayList<>();
+        for (Request request :
+                requests) {
+            leaveRequests.add(new RequestCheckForm(request));
+        }
+        model.addAttribute("leaveRequests",leaveRequests);
+        return "teacherPages/leaveRequest";
+    }
+
     @PutMapping("/request/approve")
     @ResponseBody
-    public String approve(@RequestBody Map<String,Object> requestBody){
+    public String approve(@RequestBody Map<String,String> requestBody){
         Integer id = null;
         try {
-            id = (Integer) requestBody.get("requestId");
+            id = Integer.parseInt(requestBody.get("requestId"));
         }catch (Exception e) {
-            return "failed "+e.toString();
+            throw new RuntimeException("exception caught in /request/approve");
         }
         if (id == null) {
             return "failed, id is required.";
@@ -75,12 +98,12 @@ public class TeacherController {
     }
     @PutMapping("/request/reject")
     @ResponseBody
-    public String reject(@RequestBody Map<String,Object> requestBody){
+    public String reject(@RequestBody Map<String,String> requestBody){
         Integer id = null;
         String str = null;
         try {
-            id = (Integer) requestBody.get("requestId");
-            str = (String) requestBody.get("refuseInformation");
+            id = Integer.parseInt(requestBody.get("requestId"));
+            str = requestBody.get("refuseInformation");
         }catch (Exception e) {
             return "failed "+e.toString();
         }
