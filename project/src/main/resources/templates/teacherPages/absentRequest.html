@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>CS易办：让事更容易办</title>
+    <link rel="stylesheet" href="/static/css/headerStyle.css">
+    <link rel="stylesheet" href="/static/css/requestHistoryStyle.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // 通过按钮点击事件
+            $(document).on('click', '.approveBtn', function() {
+                var requestId = $(this).closest('tr').find('#requestId').text();
+                var data = {
+                    "requestId": requestId,
+                    "isAgree": 1
+                };
+                $.ajax({
+                    type: "PUT",
+                    url: "http://localhost:8080/teacher/request",
+                    data: JSON.stringify(data),
+                    contentType: "application/json",
+                    success: function() {
+                        $(this).closest('td').html('<span class="approved">已通过</span>');
+                    }
+                });
+            });
+
+            // 拒绝按钮点击事件
+            $(document).on('click', '.rejectBtn', function() {
+                var requestId = $(this).closest('tr').find('#requestId').text();
+                var data = {
+                    "requestId": requestId,
+                    "isAgree": 0
+                };
+                $.ajax({
+                    type: "PUT",
+                    url: "http://localhost:8080/teacher/request",
+                    data: JSON.stringify(data),
+                    contentType: "application/json",
+                    success: function() {
+                        $(this).closest('td').html('<span class="rejected">已拒绝</span>');
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<div th:replace="~{fragments/teacherHeader::header}"></div>
+<div class="request-history-container">
+    <h2>缺课请假申请</h2>
+    <table>
+        <tr>
+            <th>申请号</th>
+            <th>申请人</th>
+            <th>学号</th>
+            <th>审批人</th>
+            <th>缺课理由</th>
+            <th>时间（起）</th>
+            <th>时间（终）</th>
+            <th>状态</th>
+            <th>拒绝理由</th>
+            <th>课程名</th>
+        </tr>
+        <tr th:each="request : ${absentRequest}" th:object="${request}">
+            <td th:text="*{requestId}" id="requestId"></td>
+            <td th:text="*{studentId}"></td>
+            <td th:text="*{studentName}"></td>
+            <td th:text="*{instructorName}"></td>
+            <td th:text="*{information}"></td>
+            <td th:text="*{startTime}"></td>
+            <td th:text="*{endTime}"></td>
+            <td>
+                <button th:if="*{isAgree} == -1" class="approveBtn">通过</button>
+                <span th:if="*{isAgree} == 1" class="approved">已通过</span>
+                <button th:if="*{isAgree} == -1" class="rejectBtn">拒绝</button>
+                <span th:if="*{isAgree} == 0" class="rejected">已拒绝</span>
+            </td>
+            <td><input type="text"></td>
+            <td th:text="*{courseName}"></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

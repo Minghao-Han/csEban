@@ -21,7 +21,7 @@ public class TokenInterceptor implements HandlerInterceptor {
         if (token!=null){
             JwtVerifyResult verifyResult = JwtUtils.verifyJwt(token);
             if (verifyResult.validate && requestUrl.contains(verifyResult.userRole)) {
-                System.out.println("request passed,url is "+requestUrl);
+                System.out.println("request passed,url is "+requestUrl+"method is "+request.getMethod());
                 request.setAttribute("userId",verifyResult.userId);
                 return true;
             }
@@ -30,7 +30,7 @@ public class TokenInterceptor implements HandlerInterceptor {
          * 还可以在此处检验其他操作
          */
         response.sendRedirect("/");//重定向到进入页
-        System.out.println("request rejected,url is "+requestUrl);
+        System.out.println("request rejected,url is "+requestUrl+"method is "+request.getMethod());
         return false;
     }
 }

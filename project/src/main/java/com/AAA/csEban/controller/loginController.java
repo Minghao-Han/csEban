@@ -2,7 +2,9 @@ package com.AAA.csEban.controller;
 
 import com.AAA.csEban.Utils.JwtUtils;
 import com.AAA.csEban.formObjs.LoginUser;
+import com.AAA.csEban.pojo.Student;
 import com.AAA.csEban.service.LoginService;
+import com.AAA.csEban.service.StudentService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class loginController {
     @Autowired
     private LoginService loginService;
+    @Autowired
+    private StudentService studentService;
 
     @PostMapping("/login")
     public String login(@ModelAttribute LoginUser loginUser, Model model, HttpSession session){
@@ -32,6 +36,7 @@ public class loginController {
                 case "teacher": return "teacherPages/teacherHome";
                 case "student":
                     model.addAttribute("loginUser",loginUser);
+                    model.addAttribute("name",studentService.getStudentInfo(userId).getName());
                     return "studentPages/stuHome";
                 default:
                     model.addAttribute("msg","错误的角色");

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/studentInfoStyle.css" />
+    <title>CS易办：让事更容易办</title>
+    <link rel="stylesheet" href="/static/css/headerStyle.css">
+</head>
+<body>
+<div th:replace="~{fragments/header::header}"></div>
+<div class="container">
+    <h1>个人信息</h1>
+    <div class="info" th:object="${studentInfo}">
+        <div class="info-item">
+            <strong>学号:</strong> <span th:text="*{studentId}"></span>
+        </div>
+        <div class="info-item">
+            <strong>学院:</strong> <span th:text="*{dept.name}"></span>
+        </div>
+        <div class="info-item">
+            <strong>姓名:</strong> <span th:text="*{name}"></span>
+        </div>
+        <div class="info-item">
+            <strong>班级:</strong> <span th:text="*{nclass}"></span>
+        </div>
+        <div class="info-item">
+            <strong>年级:</strong> <span th:text="*{grade}"></span>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+</html>

@@ -38,14 +38,14 @@ public class MyWebMvcConfig implements WebMvcConfigurer {
         WebMvcConfigurer.super.addInterceptors(registry);
     }
     // 解决跨域问题
-//    @Override
-//    public void addCorsMappings(CorsRegistry registry) {
-//        registry.addMapping("/**")
-//                .allowedHeaders("*")
-//                .allowedMethods("*")
-//                .maxAge(1800)
-//                .allowedOrigins("*");
-//    }
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("http://localhost:8080")
+                .allowedMethods("*")
+                .allowedHeaders("*")
+                .maxAge(1800);
+    }
 }
 
 

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/noticeStyle.css" />
+    <title>CS易办：让事更容易办</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="/static/css/headerStyle.css">
+</head>
+<body>
+<div th:replace="~{fragments/header::header}"></div>
+<div class="notice-container">
+    <h2>公告</h2>
+    <table>
+        <tr th:each="notice, iterStat : ${notices}" th:object="${notice}" class="notice">
+            <td><p th:text="*{content}">Notice Content</p></td>
+            <td><p th:text="*{poster}">Notice Poster</p></td>
+            <td><button class="checkBtn" th:attr="data-id=*{notice_id}">已读</button></td>
+        </tr>
+    </table>
+</div>
+<script>
+    $(document).ready(function() {
+    $(".checkBtn").click(function() {
+        var dataStr = { noticeId: $(this).data("id")};
+        var noticeDiv = $(this).closest('.notice');
+
+        $.ajax({
+            url: 'http://localhost:8080/student/notice',
+            type: 'PUT',
+            contentType: "application/json",
+            data: JSON.stringify(dataStr),
+            success: function(response) {
+                noticeDiv.addClass('checked');
+            },
+            error: function(err) {
+                console.error("Error checking notice:", err);
+                alert('已读失败');
+            }
+        });
+    });
+});
+</script>
+</body>
+</html>

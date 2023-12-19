@@ -1,6 +1,6 @@
 package com.AAA.csEban.mapper;
 
-import com.AAA.csEban.pojo.RequeseType;
+import com.AAA.csEban.pojo.RequestType;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedJdbcTypes;
@@ -12,10 +12,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @MappedJdbcTypes({JdbcType.INTEGER})
-@MappedTypes({RequeseType.class})
-public class RequestTypeHandle extends BaseTypeHandler<RequeseType> {
+@MappedTypes({RequestType.class})
+public class RequestTypeHandle extends BaseTypeHandler<RequestType> {
     @Override
-    public void setNonNullParameter(PreparedStatement ps, int i, RequeseType parameter, JdbcType jdbcType) throws SQLException {
+    public void setNonNullParameter(PreparedStatement ps, int i, RequestType parameter, JdbcType jdbcType) throws SQLException {
         switch (parameter){
             case E_AbsentRequest_Type:
                 ps.setInt(i, 1);
@@ -27,24 +27,24 @@ public class RequestTypeHandle extends BaseTypeHandler<RequeseType> {
     }
 
     @Override
-    public RequeseType getNullableResult(ResultSet rs, String columnName) throws SQLException {
+    public RequestType getNullableResult(ResultSet rs, String columnName) throws SQLException {
         int type = rs.getInt(columnName);
         switch (type){
             case 1:
-                return RequeseType.E_AbsentRequest_Type;
+                return RequestType.E_AbsentRequest_Type;
             case 2:
-                return RequeseType.E_LeaveRequest_Type;
+                return RequestType.E_LeaveRequest_Type;
         }
         return null;
     }
 
     @Override
-    public RequeseType getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
+    public RequestType getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
         return null;
     }
 
     @Override
-    public RequeseType getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
+    public RequestType getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
         return null;
     }
 }

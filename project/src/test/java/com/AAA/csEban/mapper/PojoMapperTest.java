@@ -1,7 +1,6 @@
 package com.AAA.csEban.mapper;
 
 import com.AAA.csEban.pojo.*;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,7 +29,7 @@ public class PojoMapperTest {
         absentRequest.setInformation("我要请假");
         absentRequest.setStudent(student);
         absentRequest.setTeacher(teacher);
-        absentRequest.setType(RequeseType.E_AbsentRequest_Type);
+        absentRequest.setType(RequestType.E_AbsentRequest_Type);
         absentRequest.setStartTime(LocalDateTime.of(2023,12,11,21,25,40 ));
         absentRequest.setEndTime(LocalDateTime.of(2023,12,11,22,20 ));
         pojoMapper.addRequest(absentRequest);

@@ -1,0 +1,31 @@
+.request-history-container {
+    width: 100%;
+    margin: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+.reviewing {
+    color: blue;
+}
+
+.rejected {
+    color: red;
+}
+
+.approved {
+    color: black;
+}

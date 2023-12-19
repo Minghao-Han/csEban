@@ -1,4 +1,12 @@
 <!DOCTYPE html>
 <html lang="cn" xmlns:th="http://www.thymeleaf.org">
-
+<head>
+    <link rel="stylesheet" th:href="@{static/css/headerStyle.css}">
+</head>
+<body>
+<div th:replace="~{fragments/teacherHeader::header}"></div>
+<div th:object="${loginUser}">
+    <h1>欢迎</h1><h1 th:text="*{username}">教师编号</h1><h1 th:text="${name}">名字</h1><h1>使用CS易办学生事务服务云平台</h1>
+</div>
+</body>
 </html>

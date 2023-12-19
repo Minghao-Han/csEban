@@ -15,5 +15,5 @@ public abstract class Request {
     protected String information;
     protected int isAgree = -1; //取三个值-1  0   1；-1表示没有审核或者还在审核中。0表示拒绝，1表示同意
     protected String refuseInformation;
-    protected RequeseType type;
+    protected RequestType type;
 }
