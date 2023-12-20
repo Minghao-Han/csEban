@@ -24,7 +24,8 @@ public class TeacherController {
     public void launchNotice(int id,String content,String grade){
         teacherService.launchNotice(id,content);
         int num = teacherService.searchNoticeNum();
-        List<Integer> list = teacherService.searchStudentByGrade(grade);
+        int deptId = teacherService.searchTeacherDeptIdByTeacherId(id);
+        List<Integer> list = teacherService.searchStudentByGrade(grade,deptId);
         for(int sid : list){
             teacherService.noticeToStudent(num,sid);
         }
@@ -40,5 +41,9 @@ public class TeacherController {
     @PostMapping("/teacher/disagree")
     public void disagree(int id,String str){
         teacherService.disagreeRequestById(id,str);
+    }
+    @PostMapping("/teacher/submit")
+    public void submit(String teacherName,String deptName){
+        teacherService.submitTeacherInformation(deptName,teacherName);
     }
 }

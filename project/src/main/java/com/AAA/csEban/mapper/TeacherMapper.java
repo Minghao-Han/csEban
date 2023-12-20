@@ -16,9 +16,15 @@ public interface TeacherMapper{
 
     void insertNotice(int teacherId,String content);
 
+    void insertTeacherInformation(int deptId,String teacherName);
+
+    int searchTeacherDeptById(int id);
+
     int queryNoticeNum();
 
-    List<Integer> searchStudentByGrade(String grade);
+    int queryDeptIdByName(String deptName);
+
+    List<Integer> searchStudentByGradeAndDept(String grade,int deptId);
 
     void noticeStudent(int num,int id);
 

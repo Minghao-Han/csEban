@@ -39,5 +39,6 @@ public class PojoMapperTest {
     @Test
     public void testQueryStudent(){
         System.out.println(pojoMapper.queryStudentById(34));
+        System.out.println(pojoMapper.queryAbsentRequestList(34));
     }
 }

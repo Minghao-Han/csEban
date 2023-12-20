@@ -19,4 +19,8 @@ public class TeacherMapperTest {
         //Teacher teacher = pojoMapper.selectTeacherById(1);
         System.out.println(teacher);
     }
+    @Test
+    public void testInsert(){
+        System.out.println(teacherMapper.queryDeptIdByName("计算机"));
+    }
 }

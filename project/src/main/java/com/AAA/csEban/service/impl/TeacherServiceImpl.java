@@ -25,13 +25,19 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
+    public void submitTeacherInformation(String deptName, String teacherName) {
+        int deptId = teacherMapper.queryDeptIdByName(deptName);
+        teacherMapper.insertTeacherInformation(deptId,teacherName);
+    }
+
+    @Override
     public int searchNoticeNum() {
         return teacherMapper.queryNoticeNum();
     }
 
     @Override
-    public List<Integer> searchStudentByGrade(String grade) {
-        return teacherMapper.searchStudentByGrade(grade);
+    public List<Integer> searchStudentByGrade(String grade,int deptId) {
+        return teacherMapper.searchStudentByGradeAndDept(grade,deptId);
     }
 
     @Override
@@ -43,7 +49,8 @@ public class TeacherServiceImpl implements TeacherService {
     public void handleNoticePush(int teacherId, String content, String grade) {
         teacherMapper.insertNotice(teacherId,content);
         int num = teacherMapper.queryNoticeNum();
-        List<Integer> list = teacherMapper.searchStudentByGrade(grade);
+        int deptId = teacherMapper.searchTeacherDeptById(teacherId);
+        List<Integer> list = teacherMapper.searchStudentByGradeAndDept(grade,deptId);
         for(int id:list){
             teacherMapper.noticeStudent(num,id);
         }
@@ -67,5 +74,10 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public void disagreeRequestById(int id, String reason) {
         teacherMapper.disagreeRequestById(id,reason);
+    }
+
+    @Override
+    public int searchTeacherDeptIdByTeacherId(int id) {
+        return teacherMapper.searchTeacherDeptById(id);
     }
 }

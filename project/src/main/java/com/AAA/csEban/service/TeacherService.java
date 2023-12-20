@@ -11,9 +11,11 @@ public interface TeacherService {
 
     void launchNotice(int id,String content);
 
+    void submitTeacherInformation(String deptName,String teacherName);
+
     int searchNoticeNum();
 
-    List<Integer> searchStudentByGrade(String grade);
+    List<Integer> searchStudentByGrade(String grade,int deptId);
 
     void noticeToStudent(int num,int id);
 
@@ -26,4 +28,6 @@ public interface TeacherService {
     void agreeRequestById(int id);
 
     void disagreeRequestById(int id,String reason);
+
+    int searchTeacherDeptIdByTeacherId(int id);
 }

@@ -55,6 +55,9 @@
     <insert id="noticeStudent">
         insert into cseban.student_look_notice value (#{num},#{id},0);
     </insert>
+    <insert id="insertTeacherInformation">
+        insert into cseban.teacher values (0,#{deptId},#{teacherName});
+    </insert>
     <update id="agreeRequestById">
         update cseban.request set is_agree=1 where request_id=#{requestID};
     </update>
@@ -76,8 +79,8 @@
     <select id="queryNoticeNum" resultType="java.lang.Integer">
         select count(*) from cseban.notice;
     </select>
-    <select id="searchStudentByGrade" resultType="java.lang.Integer">
-        select cseban.student.student_id from cseban.student where student_grade=#{grade}
+    <select id="searchStudentByGradeAndDept" resultType="java.lang.Integer">
+        select cseban.student.student_id from cseban.student where student_grade=#{grade} and dept_id=#{deptId}
     </select>
     <select id="getAbsentRequestByTeacherId" resultMap="AbsentRequestResultMap">
         select * from cseban.request R inner join cseban.absent_request AR on R.request_id = AR.request_id
@@ -86,5 +89,11 @@
     <select id="getLeaveRequestByTeacherId" resultMap="LeaveRequestResultMap">
         select * from cseban.request R inner join cseban.leave_request LR on R.request_id = LR.request_id
         where teacher_id=#{id}
+    </select>
+    <select id="searchTeacherDeptById" resultType="java.lang.Integer">
+        select cseban.teacher.dept_id from cseban.teacher where cseban.teacher.teacher_id = #{id}
+    </select>
+    <select id="queryDeptIdByName" resultType="java.lang.Integer">
+        select cseban.dept.dept_id from cseban.dept where cseban.dept.dept_name=#{deptName}
     </select>
 </mapper>

@@ -23,7 +23,8 @@ public class TeacherServiceTest {
     public void testInsert(){
         //teacherService.launchNotice(1111,"test");
         //teacherService.noticeToStudent(4,34);
-        teacherService.handleNoticePush(1111,"testAll","2021");
+        //teacherService.handleNoticePush(1111,"testAll","2021");
+        teacherService.submitTeacherInformation("计算机","yy");
     }
     @Test
     public void testUpdate(){
